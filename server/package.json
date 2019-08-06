@@ -4,7 +4,7 @@
   "description": "Server for aegleJS",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "husky": {
     "hooks": {
