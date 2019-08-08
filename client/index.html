@@ -43,7 +43,11 @@
           row.appendChild(rowStatus)
           parentElem.appendChild(row)
         }
+      })
 
+      socket.on('update service', function(message) {
+        const service = document.querySelector(`[data-title="${message.serviceName}"]`)
+        service.innerText = message.healthy
       })
     </script>
   </body>
