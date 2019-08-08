@@ -19,6 +19,12 @@ describe('isEqual', function() {
     expect(isEqual(a, b)).toEqual(true)
   })
 
+  test('Should check object equality', function() {
+    const a = { status: 1337 }
+    const b = { status: 1338 }
+    expect(isEqual(a, b)).toEqual(false)
+  })
+
   test('Should check object inequality', function() {
     const a = { status: 1337 }
     const b = { status: 1337, text: 'lorem' }
@@ -27,5 +33,9 @@ describe('isEqual', function() {
 
   test('Should check boolean equality', function() {
     expect(isEqual(true, false)).toEqual(false)
+  })
+
+  test('Should check equality between different object types', function() {
+    expect(isEqual('1337', 1337)).toEqual(false)
   })
 })
