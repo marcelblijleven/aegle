@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/marcelblijleven/aegleJS/issues"
   },
-  "homepage": "https://github.com/marcelblijleven/aegleJS#readme"
+  "homepage": "https://github.com/marcelblijleven/aegleJS#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  }
 }
