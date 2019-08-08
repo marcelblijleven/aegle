@@ -7,6 +7,9 @@
     "test": "./node_modules/.bin/jest --passWithNoTests",
     "test:coverage": "/node_modules/.bin/jest --coverage"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "husky": {
     "hooks": {
       "pre-push": "npm test"
