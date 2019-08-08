@@ -1,5 +1,5 @@
 const Express = require('express')
-const socket = require('socket.io')
+const socketio = require('socket.io')
 const bodyParser = require('body-parser')
 
 const Poller = require('./src/poller')
@@ -32,10 +32,10 @@ let server = app.listen(port, function() {
 })
 
 // Setup socket server
-let io = socket(server)
+let io = socketio(server)
 
 io.on('connection', function(socket) {
-  console.info('Socket connected with ID', socket)
+  console.info('Socket connected with ID', socket.id)
   socket.emit('services', services) // Emit services to client
   pollServices(services) // Initial poll
 })
