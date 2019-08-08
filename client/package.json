@@ -1,0 +1,24 @@
+{
+  "name": "aeglejs-client",
+  "version": "1.0.0",
+  "description": "Client for aegleJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcelblijleven/aegleJS.git"
+  },
+  "keywords": [
+    "aegle",
+    "healthcheck",
+    "monitoring"
+  ],
+  "author": "Marcel Blijleven <marcelblijleven@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marcelblijleven/aegleJS/issues"
+  },
+  "homepage": "https://github.com/marcelblijleven/aegleJS#readme"
+}
