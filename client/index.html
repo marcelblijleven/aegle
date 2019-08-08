@@ -7,11 +7,44 @@
   <body>
     <div id="app">
       <h1>Healthchecks</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io.connect('http://localhost:5000')
+      socket.on('services', function(message) {
+        const parentElem = document.querySelector('tbody')
+
+        // Clear tbody to prevent loading duplicate services
+        while (parentElem.firstChild) {
+          parentElem.firstChild.remove()
+        }
+
+        // Loop through services and add rows
+        for (const service of message) {
+          const row = document.createElement('TR')
+          const rowName = document.createElement('TD')
+          const rowStatus = document.createElement('TD')
+
+          rowName.innerText = service.name
+          rowStatus.innerText = 'pending'
+          rowStatus.setAttribute('data-title', service.name)
+          row.appendChild(rowName)
+          row.appendChild(rowStatus)
+          parentElem.appendChild(row)
+        }
+
+      })
     </script>
   </body>
 </html>
