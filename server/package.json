@@ -4,8 +4,8 @@
   "description": "Server for aegleJS",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest --passWithNoTests",
-    "test:coverage": "/node_modules/.bin/jest --coverage"
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage"
   },
   "jest": {
     "testEnvironment": "node"
