@@ -11,14 +11,17 @@ function loadServices(message) {
     const row = document.createElement('TR')
     const rowName = document.createElement('TD')
     const rowStatus = document.createElement('TD')
+    const rowModified = document.createElement('TD')
 
     rowName.innerText = service.name
     rowStatus.innerText = 'pending update' // Initital status
-    rowStatus.setAttribute('data-title', service.name)
+    rowStatus.setAttribute('status-title', service.name)
+    rowModified.setAttribute('modified-at-title', service.name)
 
     // Add td to row, and row to tbody
     row.appendChild(rowName)
     row.appendChild(rowStatus)
+    row.appendChild(rowModified)
     parent.appendChild(row)
   }
 }
