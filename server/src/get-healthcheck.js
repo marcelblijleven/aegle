@@ -8,6 +8,9 @@ async function getHealthCheck(service) {
 
   return fetch(serviceUrl, { method: 'GET' })
     .then((response) => {
+      if (response.status !== 200) {
+        throw Error(`Service ${serviceName} received status code ${response.status}`)
+      }
       return response.json()
     })
     .then((json) => {

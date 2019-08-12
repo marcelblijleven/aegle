@@ -49,4 +49,23 @@ describe('getHealthcheck', function () {
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
     expect(result).toEqual(expected)
   })
+
+  test('Receiving a status code other than 200', async() => {
+    const mockService = {
+      name: 'testService',
+      url: 'http://localhost',
+      healthyValue: { status: "Alive and kicking" }
+    }
+
+	  const errorResponse503 = new Response('503 Service unavailable', {
+		status: 503,
+	  });
+    fetch.mockReturnValue(Promise.resolve(errorResponse503))
+
+    const result = await getHealthCheck(mockService)
+    const expected = { serviceName: 'testService', healthy: false }
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(result).toEqual(expected)
+  })
 })
