@@ -1,9 +1,12 @@
 function updateService(message) {
-  const serviceName = message.serviceName
-  const serviceStatus = message.healthy
-  const service = document.querySelector(
-    `[data-title="${serviceName}"]`
+  const name = message.serviceName
+  const status = document.querySelector(
+    `[status-title="${name}"]`
+  )
+  const modifiedAt = document.querySelector(
+    `[modified-at-title="${name}"]`
   )
 
-  service.innerText = serviceStatus
+  status.innerText = message.healthy
+  modifiedAt.innerText = new Date().toLocaleString('nl')
 }
