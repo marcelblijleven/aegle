@@ -1,25 +1,46 @@
 const fetch = require('node-fetch')
 const isEqual = require('./is-equal')
 
-async function getHealthCheck(service) {
-  const serviceUrl = service.url
-  const serviceName = service.name
-  const healthyValue = service.healthyValue
+async function get(url) {
+  const response = await fetch(url, { method: 'GET'} )
+  return response
+}
 
-  return fetch(serviceUrl, { method: 'GET' })
-    .then((response) => {
-      if (response.status !== 200) {
-        throw Error(`Service ${serviceName} received status code ${response.status}`)
-      }
-      return response.json()
-    })
-    .then((json) => {
-      return { serviceName, healthy: isEqual(json, healthyValue) }
-    })
-    .catch((error) => {
-      console.error(error)
-      return { serviceName, healthy: false }
-    })
+async function checkHealthCheck(response, service) {
+  /**
+   * Return early if status code is not 200
+   */
+  if (response.status !== 200) {
+    return false
+  }
+
+  /**
+   * Initial check for html pages
+   */
+  if (service.type === 'html') {
+    return response.status === 200
+  }
+
+  const value = await response.text()
+
+  if (service.type === 'json') {
+    return isEqual(JSON.parse(value), service.healthyValue)
+  }
+
+  return isEqual(value, service.healthyValue)
+}
+
+async function getHealthCheck(service) {
+  let healthy = false
+
+  try {
+    const response = await get(service.url)
+    healthy = await checkHealthCheck(response, service)
+  } catch (error) {
+    healthy = false
+  }
+
+  return { serviceName: service.name, healthy }
 }
 
 module.exports = getHealthCheck
