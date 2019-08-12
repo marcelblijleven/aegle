@@ -5,9 +5,11 @@ const port = 3000
 
 const app = new Express()
 
+app.use('/src', Express.static(__dirname + '/src'))
+
 // Setup app
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html')
+  res.sendFile(__dirname + '/src/index.html')
 })
 
 const server = app.listen(port, function() {

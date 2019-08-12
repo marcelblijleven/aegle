@@ -14,6 +14,7 @@ async function getHealthCheck(service) {
       return { serviceName, healthy: isEqual(json, healthyValue) }
     })
     .catch((error) => {
+      console.error(error)
       return { serviceName, healthy: false }
     })
 }
