@@ -8,14 +8,16 @@ function loadServices(message) {
 
   // Loop through services and add them to tbody
   for (const service of message) {
-    const row = document.createElement('TR')
-    const rowName = document.createElement('TD')
-    const rowStatus = document.createElement('TD')
-    const rowModified = document.createElement('TD')
+    const row = document.createElement('tr')
+    const rowName = document.createElement('td')
+    const rowStatus = document.createElement('td')
+    const rowModified = document.createElement('td')
+    const spanStatus = document.createElement('span')
 
+    rowStatus.appendChild(spanStatus)
     rowName.innerText = service.name
-    rowStatus.innerText = 'pending update' // Initital status
-    rowStatus.setAttribute('status-title', service.name)
+    spanStatus.innerText = 'pending update' // Initital status
+    spanStatus.setAttribute('status-title', service.name)
     rowModified.setAttribute('modified-at-title', service.name)
 
     // Add td to row, and row to tbody
