@@ -5,15 +5,17 @@
     <title>Aegle Healthchecks</title>
     <script src="/src/js/load-services.js"></script>
     <script src="/src/js/update-service.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/primitive-ui/dist/css/main.css" />
   </head>
   <body>
-    <div id="app">
+    <div id="app" class="container">
       <h1>Healthchecks</h1>
       <table>
         <thead>
           <tr>
             <th>Service</th>
             <th>Status</th>
+            <th>Modified at</th>
           </tr>
         </thead>
         <tbody>
@@ -32,5 +34,15 @@
         updateService(message)
       })
     </script>
+    <style>
+      button {
+        background: #009435;
+        border: 1px solid #009435;
+      }
+
+      .container {
+        max-width: 680px;
+      }
+    </style>
   </body>
 </html>
