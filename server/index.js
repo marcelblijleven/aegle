@@ -3,11 +3,15 @@ const socketio = require('socket.io')
 const bodyParser = require('body-parser')
 
 const Poller = require('./src/poller')
+const Store = require('./src/store')
 const getHealthCheck = require('./src/get-healthcheck')
 const services = require('./services')
 
 const port = process.env.port || 5000
 const pollTime = 60 * 1000 // 60 seconds
+
+// Creating new store
+const store = new Store()
 
 // Setup app
 const app = new Express()
@@ -17,13 +21,20 @@ app.set('json spaces', 2)
 app.get('/', function(req, res) {
   res.type('html')
   res.status(200)
-  res.send('<h1>This is the aegleJS server</h1>')
+  res.send('<h1>aegleJS server</h1>')
 })
 
 app.get('/services', function(req, res) {
   res.type('json')
   res.status(200)
   res.send(services)
+})
+
+app.get('/healthcheck', function(req, res) {
+  const healthcheck = store.json()
+  res.type('json')
+  res.status(200)
+  res.send(healthcheck)
 })
 
 app.post('/update', function(req, res) {
@@ -49,6 +60,7 @@ io.on('connection', function(socket) {
 
 function updateService(result) {
   if (result) {
+    store.set(result.serviceName, result.healthy)
     io.sockets.emit('update service', result)
     return
   }

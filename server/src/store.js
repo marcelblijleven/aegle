@@ -7,6 +7,7 @@ class Store {
     if (this.values.hasOwnProperty(key)) {
       return this.values[key]
     }
+    
     return null
   }
 
