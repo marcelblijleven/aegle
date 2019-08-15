@@ -13,7 +13,7 @@ app.get('/', function(req, res) {
 })
 
 const server = app.listen(port, function() {
-  console.info('Running client app on port', port)
+  console.info('Client: running on port', port)
 })
 
 // Setup socket server

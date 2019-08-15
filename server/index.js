@@ -38,7 +38,7 @@ app.get('/healthcheck', function(req, res) {
 })
 
 app.post('/update', function(req, res) {
-  console.info('Updating services')
+  console.info('Server: Updating services')
   pollServices(services)
   res.status(200)
   res.send()
@@ -46,14 +46,14 @@ app.post('/update', function(req, res) {
 
 // Setup server
 let server = app.listen(port, function() {
-  console.info('Running app on port', port)
+  console.info('Server: running on port', port)
 })
 
 // Setup socket server
 let io = socketio(server)
 
 io.on('connection', function(socket) {
-  console.info('Socket connected with ID', socket.id)
+  console.info('Server: Socket connected with ID', socket.id)
   socket.emit('services', services) // Emit services to client
   pollServices(services) // Initial poll
 })
@@ -65,17 +65,16 @@ function updateService(result) {
     return
   }
 
-  console.info(`No status update to send for service ${result.serviceName}.`)
+  console.info(`Server: No status update to send for service ${result.serviceName}.`)
 }
 
 async function pollServices(services) {
   for (const service of services) {
     try {
-      const result = await getHealthCheck(service)
-      updateService(result)
+      getHealthCheck(service, updateService)
     }
     catch(error) {
-      console.error(error.message)
+      console.error('Server:', error.message)
     }
   }
 }

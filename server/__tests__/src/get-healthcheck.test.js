@@ -9,7 +9,6 @@ describe('getHealthcheck', function () {
     jest.resetAllMocks()
   })
 
-
   test('Succesfully calling endpoint with correct healthy value', async() => {
     const mockService = {
       name: 'testService',
@@ -18,19 +17,18 @@ describe('getHealthcheck', function () {
       type: 'json'
     }
 
-    const mockResponse = {
-      status: "Alive and kicking",
-    }
+    const mockCallback = jest.fn()
+    const mockResponse = { status: "Alive and kicking" }
 
     // Setup mock response for the fetch call
     fetch.mockReturnValue(Promise.resolve(new Response(JSON.stringify(mockResponse))))
     
-    const result = await getHealthCheck(mockService)
+    await getHealthCheck(mockService, mockCallback)
     const expected = { serviceName: 'testService', healthy: true }
     
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
-    expect(result).toEqual(expected)
+    expect(mockCallback).toHaveBeenCalledWith(expected)
   })
 
   test('Succesfully calling endpoint with incorrect healthy value', async() => {
@@ -41,15 +39,17 @@ describe('getHealthcheck', function () {
       type: 'json'
     }
 
+    const mockCallback = jest.fn()
+
     // Setup mock response for the fetch call
     fetch.mockReturnValue(Promise.reject('error'))
     
-    const result = await getHealthCheck(mockService)
+    await getHealthCheck(mockService, mockCallback)
     const expected = { serviceName: 'testService', healthy: false }
     
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
-    expect(result).toEqual(expected)
+    expect(mockCallback).toHaveBeenCalledWith(expected)
   })
 
   test('Receiving a status code other than 200', async() => {
@@ -60,16 +60,18 @@ describe('getHealthcheck', function () {
       type: 'json'
     }
 
+    const mockCallback = jest.fn()
 	  const errorResponse503 = new Response('503 Service unavailable', {
 		status: 503,
 	  });
     fetch.mockReturnValue(Promise.resolve(errorResponse503))
 
-    const result = await getHealthCheck(mockService)
+    await getHealthCheck(mockService, mockCallback)
     const expected = { serviceName: 'testService', healthy: false }
+    
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
-    expect(result).toEqual(expected)
+    expect(mockCallback).toHaveBeenCalledWith(expected)
   })
 
   test('Receiving a response for html pages', async() => {
@@ -80,14 +82,16 @@ describe('getHealthcheck', function () {
       type: 'html'
     }
 
+    const mockCallback = jest.fn()
     const response = new Response('<h1>Hello</h1>', { status: 200 })
 
     fetch.mockReturnValue(Promise.resolve(response))
-    const result = await getHealthCheck(mockService)
+    await getHealthCheck(mockService, mockCallback)
     const expected = { serviceName: 'htmlService', healthy: true }
+    
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
-    expect(result).toEqual(expected)
+    expect(mockCallback).toHaveBeenCalledWith(expected)
   })
 
   test('Receiving a non 200 response for html pages', async() => {
@@ -98,15 +102,17 @@ describe('getHealthcheck', function () {
       type: 'html'
     }
 
+    const mockCallback = jest.fn()
+
     const response = new Response('<h1>Hello</h1>', { status: 404 })
 
     fetch.mockReturnValue(Promise.resolve(response))
-    const result = await getHealthCheck(mockService)
+    await getHealthCheck(mockService, mockCallback)
     const expected = { serviceName: 'htmlService', healthy: false }
     
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
-    expect(result).toEqual(expected)
+    expect(mockCallback).toHaveBeenCalledWith(expected)
   })
 
   test('Receiving a plain text response with healthy value', async() => {
@@ -117,14 +123,16 @@ describe('getHealthcheck', function () {
       type: 'text'
     }
 
+    const mockCallback = jest.fn()
+
     const response = new Response('200 OK', { status: 200 })
     fetch.mockReturnValue(Promise.resolve(response))
-    const result = await getHealthCheck(mockService)
+    await getHealthCheck(mockService, mockCallback)
     const expected = { serviceName: 'textService', healthy: true }
 
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
-    expect(result).toEqual(expected)
+    expect(mockCallback).toHaveBeenCalledWith(expected)
   })
 
   test('Receiving a plain text response with unhealthy value', async() => {
@@ -135,14 +143,16 @@ describe('getHealthcheck', function () {
       type: 'text'
     }
 
+    const mockCallback = jest.fn()
+
     const response = new Response('Turtle', { status: 200 })
     fetch.mockReturnValue(Promise.resolve(response))
-    const result = await getHealthCheck(mockService)
+    await getHealthCheck(mockService, mockCallback)
     const expected = { serviceName: 'textService', healthy: false }
 
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
-    expect(result).toEqual(expected)
+    expect(mockCallback).toHaveBeenCalledWith(expected)
   })
 
   test('Receiving a plain text response with 500 status', async() => {
@@ -153,13 +163,15 @@ describe('getHealthcheck', function () {
       type: 'text'
     }
 
+    const mockCallback = jest.fn()
+
     const response = new Response('500 Internal server error', { status: 500 })
     fetch.mockReturnValue(Promise.resolve(response))
-    const result = await getHealthCheck(mockService)
+    await getHealthCheck(mockService, mockCallback)
     const expected = { serviceName: 'textService', healthy: false }
 
     expect(fetch).toHaveBeenCalledTimes(1)
     expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
-    expect(result).toEqual(expected)
+    expect(mockCallback).toHaveBeenCalledWith(expected)
   })
 })
