@@ -30,17 +30,18 @@ async function checkHealthCheck(response, service) {
   return isEqual(value, service.healthyValue)
 }
 
-async function getHealthCheck(service) {
+async function getHealthCheck(service, callback) {
   let healthy = false
 
   try {
     const response = await get(service.url)
     healthy = await checkHealthCheck(response, service)
   } catch (error) {
+    console.error('Server:', error.message)
     healthy = false
   }
 
-  return { serviceName: service.name, healthy }
+  callback({ serviceName: service.name, healthy })
 }
 
 module.exports = getHealthCheck
