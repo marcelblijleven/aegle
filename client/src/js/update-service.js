@@ -3,8 +3,8 @@ function updateService(message) {
   const status = document.querySelector(
     `[status-title="${name}"]`
   )
-  const modifiedAt = document.querySelector(
-    `[modified-at-title="${name}"]`
+  const updatedAt = document.querySelector(
+    `[updated-at-title="${name}"]`
   )
 
   if (message.healthy) {
@@ -13,6 +13,6 @@ function updateService(message) {
     status.setAttribute('class', 'badge badge-danger')
   }
 
-  status.innerText = message.healthy
-  modifiedAt.innerText = new Date().toLocaleString('nl')
+  status.innerText = message.healthy ? 'healthy' : 'unhealthy'
+  updatedAt.innerText = new Date().toLocaleString('nl')
 }
