@@ -3,6 +3,12 @@ class Store {
     this.values = {}
   }
 
+  init(services) {
+    for (const service of services) {
+      this.set(service.name, 'pending')
+    }
+  }
+
   get(key) {
     if (this.values.hasOwnProperty(key)) {
       return this.values[key]
@@ -24,20 +30,22 @@ class Store {
   }
 
   json() {
-    return JSON.stringify(this.values)
-  }
-
-  loadFromJson(str) {
-    try {
-      this.values = JSON.parse(str)
-    }
-    catch (error) {
-      this.values = this.values
-    }
-    finally {
-      return this.values
-    }
+    return this.values
   }
 }
 
-module.exports = Store
+const store = new Store()
+
+function initialiseStore(services) {
+  store.init(services)
+}
+
+function updateStore(key, value) {
+  store.set(key, value)
+}
+
+module.exports = {
+  store,
+  initialiseStore,
+  updateStore
+}
