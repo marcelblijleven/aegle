@@ -8,11 +8,11 @@ function loadServices(message) {
 
   // Loop through services and add them to tbody
   for (const service of message) {
-    const row = document.createElement('tr')
-    const rowName = document.createElement('td')
-    const rowStatus = document.createElement('td')
-    const rowUpdated = document.createElement('td')
-    const spanStatus = document.createElement('span')
+    let row = document.createElement('tr')
+    let rowName = document.createElement('td')
+    let rowStatus = document.createElement('td')
+    let rowUpdated = document.createElement('td')
+    let spanStatus = document.createElement('span')
 
     rowStatus.appendChild(spanStatus)
     rowName.innerText = service.name
