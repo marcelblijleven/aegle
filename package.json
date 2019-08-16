@@ -2,8 +2,12 @@
   "name": "aegleJS",
   "version": "0.1.0",
   "scripts": {
-    "start:client": "node ./client/index.js",
-    "start:server": "node ./server/index.js",
-    "start": "npm run start:server & npm run start:client"
+    "start:client": "node_modules/.bin/nodemon ./client/index.js",
+    "start:server": "node_modules/.bin/nodemon ./server/app.js",
+    "start": "npm run start:server & npm run start:client",
+    "postinstall": "cd ./server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }
