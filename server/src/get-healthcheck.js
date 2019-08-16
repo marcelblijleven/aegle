@@ -30,7 +30,7 @@ async function checkHealthCheck(response, service) {
   return isEqual(value, service.healthyValue)
 }
 
-async function getHealthCheck(service, callback) {
+async function getHealthCheck(service, io, callback) {
   let healthy = false
 
   try {
@@ -41,7 +41,7 @@ async function getHealthCheck(service, callback) {
     healthy = false
   }
 
-  callback({ serviceName: service.name, healthy })
+  callback({ serviceName: service.name, healthy }, io)
 }
 
 module.exports = getHealthCheck

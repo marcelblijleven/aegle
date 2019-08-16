@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "scripts": {
     "start:client": "node_modules/.bin/nodemon ./client/index.js",
+<<<<<<< HEAD
     "start:server": "node_modules/.bin/nodemon ./server/index.js",
+=======
+    "start:server": "node_modules/.bin/nodemon ./server/app.js",
+>>>>>>> tidy-up-routes
     "start": "npm run start:server & npm run start:client",
     "postinstall": "cd ./server && npm install && cd ../client && npm install"
   },

@@ -1,14 +1,16 @@
 const path = require('path')
 const fs = require('fs')
 
-const directory = path.join(__dirname, 'services')
+const directory = __dirname
 
 function getServices(dir) {
   let services = []
   const files = fs.readdirSync(dir)
-
   files.forEach(file => {
     if (path.extname(file) === '.js') {
+      if (file === 'index.js') {
+        return
+      }
       const requiredServices = require(path.join(dir, file))
 
       if (!Array.isArray(requiredServices)) {

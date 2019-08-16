@@ -16,7 +16,7 @@ const services = [
     url: 'https://httpstat.us/200',
     healthyValue: '200 OK',
     type: 'text'
-  },
+  }
 ]
 
 module.exports = services
