@@ -6,6 +6,14 @@ Run `npm install` in the root folder to install dependencies for both server and
 
 Add services to the ./server/services folder, see the `example-service.js` file for example services. You can add and export either a single service, or an array of services. The server will automatically include your services.
 
+For now, valid service types are:
+
+| type    | check |
+|--------|------|
+| text | Will compare the received text response with the provided healthy value |
+| json | Will compare the received json response with the provided healthy value |
+| html | For now just checks if the server response is 200 |
+
 ## Run
 After adding your services, run `npm run start` in the root folder.
 
