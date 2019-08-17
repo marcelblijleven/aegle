@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const verifyServices = require('../src/verify-services')
 
 const directory = __dirname
 
@@ -20,6 +21,11 @@ function getServices(dir) {
       }
     }
   })
+
+  if (!verifyServices(services)) {
+    console.error('Server: not all services match requirements')
+    process.exit(1)
+  }
 
   return services
 }
