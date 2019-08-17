@@ -31,6 +31,7 @@ app.set('json spaces', 2)
 // Setup server
 const server = app.listen(port, function() {
   console.info('Server: running on port', port)
+  pollServices(services, io) // Initial poll
 })
 
 // Attach socket to server
@@ -39,7 +40,6 @@ io.attach(server)
 io.on('connection', function(socket) {
   console.info('Server: Socket connected with ID', socket.id)
   socket.emit('services', services) // Emit services to client
-  pollServices(services, io) // Initial poll
 })
 
 // Start polling
