@@ -7,7 +7,16 @@
     "start": "npm run start:server & npm run start:client",
     "postinstall": "cd ./server && npm install && cd ../client && npm install"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "cd server && npm test"
+    }
+  },
   "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "husky": "^3.0.4",
     "nodemon": "^1.19.1"
   }
 }
