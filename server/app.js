@@ -1,3 +1,4 @@
+require('dotenv').config({path: __dirname + '/.env'})
 const app = require('express')()
 const routes = require('./routes')
 
@@ -9,8 +10,8 @@ const { initialiseStore } = require('./src/store')
 const services = require('./services')
 const pollServices = require('./src/poll-services')
 
-const port = process.env.port || 5000
-const pollTime = 60 * 1000 // 60 seconds
+const port = process.env.SERVER_PORT
+const pollTime = process.env.POLL_TIMER
 
 // Initialise store
 initialiseStore(services)
@@ -31,7 +32,6 @@ app.set('json spaces', 2)
 // Setup server
 const server = app.listen(port, function() {
   console.info('Server: running on port', port)
-  pollServices(services, io) // Initial poll
 })
 
 // Attach socket to server
@@ -40,8 +40,14 @@ io.attach(server)
 io.on('connection', function(socket) {
   console.info('Server: Socket connected with ID', socket.id)
   socket.emit('services', services) // Emit services to client
+  pollServices(services, io)
 })
 
 // Start polling
 const poller = new Poller(() => pollServices(services, io), pollTime)
 poller.start()
+
+process.on('SIGINT', function() {
+  console.info('Server: shutting down')
+  process.exit(0)
+})

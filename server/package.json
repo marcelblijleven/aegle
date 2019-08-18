@@ -32,6 +32,7 @@
   "homepage": "https://github.com/marcelblijleven/aegleJS#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "is-absolute-url": "^3.0.0",
     "node-fetch": "^2.6.0",

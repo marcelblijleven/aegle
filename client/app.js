@@ -18,3 +18,9 @@ const server = app.listen(port, function() {
 
 // Setup socket server
 const io = socketio(server)
+
+process.on('SIGINT', function() {
+  console.info('Client: shutting down')
+  process.exit(0)
+})
+

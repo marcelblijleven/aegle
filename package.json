@@ -2,7 +2,7 @@
   "name": "aegleJS",
   "version": "0.1.0",
   "scripts": {
-    "start:client": "node_modules/.bin/nodemon ./client/index.js",
+    "start:client": "node_modules/.bin/nodemon ./client/app.js",
     "start:server": "node_modules/.bin/nodemon ./server/app.js",
     "start": "npm run start:server & npm run start:client",
     "postinstall": "cd ./server && npm install && cd ../client && npm install"
