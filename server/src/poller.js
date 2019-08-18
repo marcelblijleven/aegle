@@ -9,7 +9,6 @@ class Poller {
    * Start polling
    */
   start() {
-    this.func()
     this.timer = setInterval(this.func, this.pollTime)
   }
 
