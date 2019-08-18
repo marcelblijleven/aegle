@@ -9,11 +9,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "cd server && npm test"
     }
   },
   "devDependencies": {
-    "husky": "^3.0.2",
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "husky": "^3.0.4",
     "nodemon": "^1.19.1"
   }
 }
