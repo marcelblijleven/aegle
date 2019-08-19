@@ -1,5 +1,5 @@
-# aegleJS
-Simple healthcheck tool. Add your services and aegleJS will poll them every minute.
+# aegle
+Simple healthcheck tool. Add your services and aegle will poll them every minute.
 
 ## Setup
 Run `npm install` in the root folder to install dependencies for both server and client.
