@@ -10,8 +10,8 @@ const { initialiseStore } = require('./src/store')
 const services = require('./services')
 const pollServices = require('./src/poll-services')
 
-const port = process.env.SERVER_PORT
-const pollTime = process.env.POLL_TIMER
+const port = process.env.SERVER_PORT || 5000
+const pollTime = process.env.POLL_TIMER || 60 * 1000
 
 // Initialise store
 initialiseStore(services)
@@ -32,6 +32,8 @@ app.set('json spaces', 2)
 // Setup server
 const server = app.listen(port, function() {
   console.info('Server: running on port', port)
+  console.info('SERVER_PORT', process.env.SERVER_PORT)
+  console.info('POLL_TIMER', process.env.POLL_TIMER)
 })
 
 // Attach socket to server
