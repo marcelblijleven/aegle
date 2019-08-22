@@ -2,7 +2,7 @@ const fetch = require('node-fetch')
 const isEqual = require('./is-equal')
 
 async function get(url) {
-  const response = await fetch(url, { method: 'GET', timeout: process.env.POLL_TIMEOUT } )
+  const response = await fetch(url, { method: 'GET', timeout: process.env.POLL_TIMEOUT || 15 * 1000 } )
   return response
 }
 
