@@ -12,7 +12,7 @@ async function postMessage(body) {
 
 function getBody(message) {
   if (process.env.WEBHOOK.includes('slack')) {
-    return { "text": "message" }
+    return { text: message }
   }
 
   throw new Error('Webhook not implemented. Currently only Slack is implemented')
