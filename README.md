@@ -29,7 +29,7 @@ After adding your services, run `npm run start` in the root folder.
 | app    | port |
 |--------|------|
 | server | 5000 |
-| client | 3000 |
+| client | 8080 |
 
 By default, the services will update every minute.
 
