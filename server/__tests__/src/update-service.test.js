@@ -1,4 +1,6 @@
 const updateService = require('../../src/update-service')
+jest.mock('../../src/update-webhook')
+const updateWebhook = require('../../src/update-webhook')
 
 jest.mock('../../src/store', () => {
   return {
@@ -18,6 +20,10 @@ const ioMock = {
 console.info = jest.fn()
 
 describe('updateService', function() {
+  beforeEach(() => {
+    jest.resetModules()
+  })
+
   afterEach(() => {
     jest.resetAllMocks()
   })
@@ -54,23 +60,18 @@ describe('updateService', function() {
     expect(updateStore).toHaveBeenCalledWith('service1', 'unhealthy')
     expect(ioMock.sockets.emit).toHaveBeenCalledWith('update service', result)
   })
+
+  test('It should send an update to webhook when result is unhealthy and webhook env is set', function() {
+    process.env.WEBHOOK = 'localhost'
+    const result = { serviceName: 'service1', healthy: false }
+    updateService(result, ioMock)
+    expect(updateWebhook).toHaveBeenCalled()
+  })
+
+  test('It should not send an update to webhook when result is unhealthy and webhook env is set', function() {
+    delete process.env.WEBHOOK
+    const result = { serviceName: 'service1', healthy: false }
+    updateService(result, ioMock)
+    expect(updateWebhook).not.toHaveBeenCalled()
+  })
 })
-
-
-
-
-///
-/*
-
-const { updateStore } = require('./store')
-
-function updateService(result, io) {
-  if (result) {
-    const status = result.healthy ? 'healthy' : 'unhealthy'
-    updateStore(result.serviceName, status)
-    io.sockets.emit('update service', result)
-    return
-  }
-
-  console.info(`Server: No status update to send for service ${result.serviceName}.`)
-}*/

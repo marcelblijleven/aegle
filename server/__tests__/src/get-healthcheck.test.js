@@ -28,7 +28,7 @@ describe('getHealthcheck', function () {
     const expected = { serviceName: 'testService', healthy: true }
     
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' , timeout: 15000 })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
   })
 
@@ -50,7 +50,7 @@ describe('getHealthcheck', function () {
     const expected = { serviceName: 'testService', healthy: false }
     
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' , timeout: 15000 })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
   })
 
@@ -72,7 +72,7 @@ describe('getHealthcheck', function () {
     const expected = { serviceName: 'testService', healthy: false }
     
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' , timeout: 15000 })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
   })
 
@@ -92,7 +92,7 @@ describe('getHealthcheck', function () {
     const expected = { serviceName: 'htmlService', healthy: true }
     
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' , timeout: 15000 })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
   })
 
@@ -113,7 +113,7 @@ describe('getHealthcheck', function () {
     const expected = { serviceName: 'htmlService', healthy: false }
     
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' , timeout: 15000 })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
   })
 
@@ -133,7 +133,7 @@ describe('getHealthcheck', function () {
     const expected = { serviceName: 'textService', healthy: true }
 
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' , timeout: 15000 })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
   })
 
@@ -153,7 +153,7 @@ describe('getHealthcheck', function () {
     const expected = { serviceName: 'textService', healthy: false }
 
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' , timeout: 15000 })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
   })
 
@@ -173,7 +173,7 @@ describe('getHealthcheck', function () {
     const expected = { serviceName: 'textService', healthy: false }
 
     expect(fetch).toHaveBeenCalledTimes(1)
-    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' })
+    expect(fetch).toHaveBeenCalledWith(mockService.url, { method: 'GET' , timeout: 15000 })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
   })
 })
