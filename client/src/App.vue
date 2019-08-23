@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import ServiceTable from '@/components/ServiceTable.vue'
 
 export default {
@@ -37,7 +38,8 @@ export default {
           healthyValue: '200 OK',
           type: 'text'
         }
-      ]
+      ],
+      socket : io('localhost:5000')
     }
   }
 }
