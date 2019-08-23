@@ -1,5 +1,5 @@
 {
-  "name": "aegleJS",
+  "name": "aegle",
   "version": "0.1.0",
   "scripts": {
     "start:client": "node_modules/.bin/nodemon ./client/app.js",
