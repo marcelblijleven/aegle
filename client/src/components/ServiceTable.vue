@@ -13,3 +13,11 @@
     </table>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'service-table'
+}
+</script>
+
+<style scoped></style>
