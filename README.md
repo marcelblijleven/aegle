@@ -14,6 +14,15 @@ For now, valid service types are:
 | json | Will compare the received json response with the provided healthy value |
 | html | For now just checks if the server response is 200 |
 
+### dotenv
+The following dotenv variables are available
+SERVER_PORT=5000
+POLL_TIMER=60000
+POLL_TIMEOUT=15000
+WEBHOOK="" (insert a Slack channel webhook url if you want to be updated when a service is unhealthy)
+
+Fill in your desired values and copy and rename the `template.env` file to `.env`
+
 ## Run
 After adding your services, run `npm run start` in the root folder.
 
