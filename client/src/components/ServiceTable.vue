@@ -1,6 +1,9 @@
 <template>
   <div id="service-table">
-    <table>
+    <p v-if="services.length < 1">
+      No services found.
+    </p>
+    <table v-else>
       <thead>
           <tr>
             <th>Service</th>
