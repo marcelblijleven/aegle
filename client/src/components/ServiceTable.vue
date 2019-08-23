@@ -1,14 +1,15 @@
 <template>
   <div id="service-table">
-    <p v-if="services.length < 1">
-      No services found.
-    </p>
+    <div v-if="services.length < 1">
+      <p>No services found.</p>
+      <p>Make sure the server is running and you've added services to the services directory</p>
+    </div>
     <table v-else>
       <thead>
           <tr>
             <th>Service</th>
             <th>Status</th>
-            <th>Modified at</th>
+            <th>Updated at</th>
           </tr>
         </thead>
         <tbody>
