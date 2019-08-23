@@ -41,7 +41,10 @@ async function getHealthCheck(service, io, callback) {
     healthy = false
   }
 
-  callback({ serviceName: service.name, healthy }, io)
+  service.status = healthy ? 'healthy' : 'unhealthy'
+  service.updatedAt = new Date().toLocaleString('nl-NL')
+
+  callback({ service }, io)
 }
 
 module.exports = getHealthCheck

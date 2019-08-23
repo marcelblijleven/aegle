@@ -16,6 +16,32 @@ const ioMock = {
   }
 }
 
+const healthyService = { 
+  service: {
+    healthyValue: {
+      status: "Alive and kicking"
+    },
+    name: 'service1',
+    status: 'healthy',
+    type: 'json',
+    updatedAt: '8/6/2019, 12:00:00 AM',
+    url: 'http://localhost',
+  }
+}
+
+const unhealthyService = { 
+  service: {
+    healthyValue: {
+      status: "Alive and kicking"
+    },
+    name: 'service1',
+    status: 'unhealthy',
+    type: 'json',
+    updatedAt: '8/6/2019, 12:00:00 AM',
+    url: 'http://localhost',
+  }
+}
+
 // Suppress console.info
 console.info = jest.fn()
 
@@ -29,13 +55,13 @@ describe('updateService', function() {
   })
 
   test('It should call updateStore when receiving a result', function() {
-    const result = { serviceName: 'mockService', healthy: true }
+    const result = healthyService
     updateService(result, ioMock)
     expect(updateStore).toHaveBeenCalled()
   })
 
   test('It should emit to socket when receiving a result', function() {
-    const result = { serviceName: 'mockService', healthy: true }
+    const result = healthyService
     updateService(result, ioMock)
     expect(ioMock.sockets.emit).toHaveBeenCalled()
   })
@@ -47,30 +73,30 @@ describe('updateService', function() {
     expect(ioMock.sockets.emit).not.toHaveBeenCalled()
   })
 
-  test('It should update and emit with \'healthy\' if status is true', function() {
-    const result = { serviceName: 'service1', healthy: true }
+  test('It should update and emit with \'healthy\' if status is healthy', function() {
+    const result = healthyService
     updateService(result, ioMock)
     expect(updateStore).toHaveBeenCalledWith('service1', 'healthy')
-    expect(ioMock.sockets.emit).toHaveBeenCalledWith('update service', result)
+    expect(ioMock.sockets.emit).toHaveBeenCalledWith('service:update', result)
   })
 
-  test('It should update and emit with \'unhealthy\' if status is false', function() {
-    const result = { serviceName: 'service1', healthy: false }
+  test('It should update and emit with \'unhealthy\' if status is unhealthy', function() {
+    const result = unhealthyService
     updateService(result, ioMock)
     expect(updateStore).toHaveBeenCalledWith('service1', 'unhealthy')
-    expect(ioMock.sockets.emit).toHaveBeenCalledWith('update service', result)
+    expect(ioMock.sockets.emit).toHaveBeenCalledWith('service:update', result)
   })
 
-  test('It should send an update to webhook when result is unhealthy and webhook env is set', function() {
+  test('It should send an update to webhook when status is unhealthy and webhook env is set', function() {
     process.env.WEBHOOK = 'localhost'
-    const result = { serviceName: 'service1', healthy: false }
+    const result = unhealthyService
     updateService(result, ioMock)
     expect(updateWebhook).toHaveBeenCalled()
   })
 
-  test('It should not send an update to webhook when result is unhealthy and webhook env is set', function() {
+  test('It should not send an update to webhook when status is unhealthy and webhook env is set', function() {
     delete process.env.WEBHOOK
-    const result = { serviceName: 'service1', healthy: false }
+    const result = unhealthyService
     updateService(result, ioMock)
     expect(updateWebhook).not.toHaveBeenCalled()
   })

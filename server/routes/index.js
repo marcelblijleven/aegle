@@ -5,7 +5,7 @@ const healthcheck = require('./healthcheck')
 routes.get('/', function(req, res) {
   res.type('json')
   res.status(200)
-  res.send({aegleJS_server: 'connected'})
+  res.send({aegle_server: 'connected'})
 })
 
 routes.use('/services', services)

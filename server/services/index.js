@@ -27,6 +27,13 @@ function getServices(dir) {
     process.exit(1)
   }
 
+  // Add properties to services
+  for (const service of services) {
+    service['id'] = 'a' + Math.random().toString(36).substr(2, 4)
+    service['status'] = null
+    service['updatedAt'] = null
+  }
+
   return services
 }
 
