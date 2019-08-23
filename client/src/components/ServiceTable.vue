@@ -9,6 +9,11 @@
           </tr>
         </thead>
         <tbody>
+          <tr v-for="service in services" :key="service.id">
+            <td>{{ service.name }}</td>
+            <td>{{ service.status || "pending" }}</td>
+            <td>{{ service.updatedAt || "-" }}</td>
+          </tr>
         </tbody>
     </table>
   </div>
@@ -16,7 +21,10 @@
 
 <script>
 export default {
-  name: 'service-table'
+  name: 'service-table',
+  props: {
+    services: Array
+  }
 }
 </script>
 
