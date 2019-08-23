@@ -16,31 +16,14 @@ export default {
   },
   data() {
     return {
-      services: [
-        {
-          id: 1,
-          name: 'HttpStatus200 - after sleep 10 sec',
-          url: 'https://httpstat.us/200?sleep=10000',
-          healthyValue: '200 OK',
-          type: 'text'
-        },
-        {
-          id: 2,
-          name: 'HttpStatus524',
-          url: 'https://httpstat.us/524?sleep=4000',
-          healthyValue: '200 OK',
-          type: 'text'
-        },
-        {
-          id: 3,
-          name: 'HttpStatus200',
-          url: 'https://httpstat.us/200',
-          healthyValue: '200 OK',
-          type: 'text'
-        }
-      ],
+      services: [],
       socket : io('localhost:5000')
     }
+  },
+  mounted() {
+    this.socket.on('services', (message) => {
+      this.services = message
+    })
   }
 }
 </script>
