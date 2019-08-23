@@ -8,7 +8,8 @@
     "test:coverage": "jest --coverage --collectCoverageFrom=src/**/*.{js,jsx}"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFiles": ["jest-date-mock"]
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,6 @@
   },
   "devDependencies": {
     "jest": "^24.8.0",
-    "jest-fetch-mock": "^2.1.2"
+    "jest-date-mock": "^1.0.7"
   }
 }
