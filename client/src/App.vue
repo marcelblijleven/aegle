@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <h1>Aegle healthchecks</h1>
-    <service-table :services="services" />
+    <service-table :services="services" :hasConnection="hasConnection" />
   </div>
 </template>
 
@@ -17,10 +17,21 @@ export default {
   data() {
     return {
       services: [],
-      socket : io('localhost:5000')
+      socket : io('localhost:5000'),
+      hasConnection: false
     }
   },
   mounted() {
+    this.socket.on('connect', () => {
+      this.hasConnection = true
+      console.info('Connected to server')
+    })
+
+    this.socket.on('connect_error', () => {
+      this.hasConnection = false
+      console.error('No connection to server')
+    })
+
     this.socket.on('services', (message) => {
       this.services = message
     })
