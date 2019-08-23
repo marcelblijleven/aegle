@@ -42,7 +42,7 @@ async function getHealthCheck(service, io, callback) {
   }
 
   service.status = healthy ? 'healthy' : 'unhealthy'
-  service.updatedAt = new Date().toLocaleString('nl')
+  service.updatedAt = new Date().toLocaleString('nl-NL')
 
   callback({ service }, io)
 }

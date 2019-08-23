@@ -1,15 +1,11 @@
 const fetch = require('node-fetch')
-const {
-  advanceTo,
-  clear
-} = require('jest-date-mock')
-const {
-  Response
-} = jest.requireActual('node-fetch')
+const { advanceTo, clear } = require('jest-date-mock')
+const { Response } = jest.requireActual('node-fetch')
 const getHealthCheck = require('../../src/get-healthcheck')
 
 jest.mock('node-fetch')
 const ioMock = {}
+const updatedAt = new Date(2019, 7, 6, 0, 0, 0).toLocaleString('nl')
 
 describe('getHealthcheck', function () {
   beforeEach(() => {
@@ -48,7 +44,7 @@ describe('getHealthcheck', function () {
         name: 'testService',
         status: 'healthy',
         type: 'json',
-        updatedAt: '8/6/2019, 12:00:00 AM',
+        updatedAt: updatedAt,
         url: 'http://localhost',
       }
     }
@@ -86,7 +82,7 @@ describe('getHealthcheck', function () {
         name: 'testService',
         status: 'unhealthy',
         type: 'json',
-        updatedAt: '8/6/2019, 12:00:00 AM',
+        updatedAt: updatedAt,
         url: 'http://localhost',
       }
     }
@@ -124,7 +120,7 @@ describe('getHealthcheck', function () {
         name: 'testService',
         status: 'unhealthy',
         type: 'json',
-        updatedAt: '8/6/2019, 12:00:00 AM',
+        updatedAt: updatedAt,
         url: 'http://localhost',
       }
     }
@@ -158,7 +154,7 @@ describe('getHealthcheck', function () {
         name: 'htmlService',
         status: 'healthy',
         type: 'html',
-        updatedAt: '8/6/2019, 12:00:00 AM',
+        updatedAt: updatedAt,
         url: 'http://localhost',
       }
     }
@@ -193,7 +189,7 @@ describe('getHealthcheck', function () {
         name: 'htmlService',
         status: 'unhealthy',
         type: 'html',
-        updatedAt: '8/6/2019, 12:00:00 AM',
+        updatedAt: updatedAt,
         url: 'http://localhost',
       }
     }
@@ -227,7 +223,7 @@ describe('getHealthcheck', function () {
         name: 'textService',
         status: 'healthy',
         type: 'text',
-        updatedAt: '8/6/2019, 12:00:00 AM',
+        updatedAt: updatedAt,
         url: 'http://localhost',
       }
     }
@@ -261,7 +257,7 @@ describe('getHealthcheck', function () {
         name: 'textService',
         status: 'unhealthy',
         type: 'text',
-        updatedAt: '8/6/2019, 12:00:00 AM',
+        updatedAt: updatedAt,
         url: 'http://localhost',
       }
     }
@@ -295,7 +291,7 @@ describe('getHealthcheck', function () {
         name: 'textService',
         status: 'unhealthy',
         type: 'text',
-        updatedAt: '8/6/2019, 12:00:00 AM',
+        updatedAt: updatedAt,
         url: 'http://localhost',
       }
     }
