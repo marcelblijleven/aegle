@@ -32,8 +32,6 @@ app.set('json spaces', 2)
 // Setup server
 const server = app.listen(port, function() {
   console.info('Server: running on port', port)
-  console.info('SERVER_PORT', process.env.SERVER_PORT)
-  console.info('POLL_TIMER', process.env.POLL_TIMER)
 })
 
 // Attach socket to server
