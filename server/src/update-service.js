@@ -8,7 +8,7 @@ function updateService(result, io) {
     io.sockets.emit('update service', result)
 
     if (!result.healthy && process.env.WEBHOOK) {
-      updateWebhook(`Service '${result.serviceName} is not healthy'`)
+      updateWebhook(`Service '${result.serviceName}' is not healthy`)
     }
 
     return
