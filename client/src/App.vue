@@ -29,7 +29,6 @@ export default {
     this.socket.on('service:update', (message) => {
       this.services.find(service => {
       if (service.id === message.service.id) {
-        console.info(`Updating service ${message.service.name}`)
         service.status = message.service.status;
         service.updatedAt = message.service.updatedAt;
       }
