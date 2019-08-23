@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import io from 'socket.io-client'
 import ServiceTable from '@/components/ServiceTable.vue'
 
@@ -28,13 +27,11 @@ export default {
 
     this.socket.on('service:update', (message) => {
       this.services.find(service => {
-      if (service.id === message.service.id) {
-        service.status = message.service.status;
-        service.updatedAt = message.service.updatedAt;
-      }
-    })
-
-      Vue.set(this.services, message.service.id, message.service)
+        if (service.id === message.service.id) {
+          service.status = message.service.status;
+          service.updatedAt = message.service.updatedAt;
+        }
+      })
     })
   }
 }
