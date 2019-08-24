@@ -24,12 +24,10 @@ export default {
   mounted() {
     this.socket.on('connect', () => {
       this.hasConnection = true
-      console.info('Connected to server')
     })
 
     this.socket.on('connect_error', () => {
       this.hasConnection = false
-      console.error('No connection to server')
     })
 
     this.socket.on('services', (message) => {
