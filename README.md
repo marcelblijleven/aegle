@@ -1,12 +1,10 @@
 <h1 align="center">aegle</h1>
 <p align="center" style="font-size: 1.2rem;">Simple healthcheck monitor</p>
 
-## Setup
+## Quick start
 Run `npm install` in the root folder to install dependencies for both server and client.
 
-Add services to the ./server/services folder, see the `example-service.js` file for example services. You can add and export either a single service, or an array of services. The server will automatically include your services.
-
-For now, valid service types are:
+Add services to the ./server/services folder, see the `example-service.js` file for example services. You can add and export either a single service, or an array of services. The server will automatically include your services. For now, valid service types are:
 
 | type    | check |
 |--------|------|
@@ -16,12 +14,12 @@ For now, valid service types are:
 
 ### dotenv
 The following dotenv variables are available
-SERVER_PORT=5000
-POLL_TIMER=60000
-POLL_TIMEOUT=15000
-WEBHOOK="" (insert a Slack channel webhook url if you want to be updated when a service is unhealthy)
+| SERVER_PORT=5000 |
+| POLL_TIMER=60000 |
+| POLL_TIMEOUT=15000 |
+| WEBHOOK="" |
 
-Fill in your desired values and copy and rename the `template.env` file to `.env`
+Fill in your desired values and copy and rename the `template.env` file to `.env`. Insert a Slack channel webhook url if you want to be updated when a service is unhealthy
 
 ## Run
 After adding your services, run `npm run start` in the root folder.
