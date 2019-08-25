@@ -1,27 +1,32 @@
 <template>
   <div id="app" class="container">
     <h1>Aegle healthchecks</h1>
-    <service-table :services="services" :hasConnection="hasConnection" />
+    <table-component :data="services" :columns="columns" />
   </div>
 </template>
 
 <script>
 import io from 'socket.io-client'
-import ServiceTable from '@/components/ServiceTable.vue'
+import TableComponent from '@/components/table/TableComponent.vue'
 
 export default {
   name: 'app',
   components: {
-    ServiceTable
+    TableComponent,
   },
   data() {
     return {
       services: [],
+      columns: [
+        { position: 1, title: "status", data: "status"},
+        { position: 2, title: "name", data: "name"},
+        { position: 3, title: "updated at", data: "updatedAt"}, 
+      ],
       socket : io('localhost:5000'),
       hasConnection: false
     }
   },
-  mounted() {
+  async mounted() {
     this.socket.on('connect', () => {
       this.hasConnection = true
     })
@@ -42,7 +47,7 @@ export default {
         }
       })
     })
-  }
+  },
 }
 </script>
 
