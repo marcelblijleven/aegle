@@ -1,7 +1,17 @@
 <template>
-  <div id='app' class='container'>
-    <h1>Aegle healthchecks</h1>
-    <table-placeholder :services="services" :columns="columns" :connected="hasConnection" />
+  <div id='app'>
+    <v-app id='inspire'>
+      <v-container fluid dark>
+        <v-row :align="alignment" :justify="justify">
+          <v-col :sm="0" :md="2" />
+          <v-col :sm="12" :md="8">
+            <h1>Aegle healthchecks</h1>
+            <table-placeholder :services="services" :columns="columns" :connected="hasConnection" />
+          </v-col>
+          <v-col :sm="0" :md="2" />
+        </v-row>
+      </v-container>
+    </v-app>
   </div>
 </template>
 
@@ -16,6 +26,8 @@ export default {
   },
   data() {
     return {
+      justify: 'center',
+      alignment: 'center',
       services: [],
       columns: [
         { position: 1, title: '', data: 'status'},
@@ -57,6 +69,9 @@ export default {
       }
     })
   },
+  created() {
+    this.$vuetify.theme.dark = false
+  },
   methods: {
     sortServices: function(services) {
       return services.sort((a, b) => {
@@ -76,10 +91,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-}
-
-.container {
-  max-width: 700px;
 }
 </style>
