@@ -18,6 +18,12 @@
 <script>
 import io from 'socket.io-client'
 import TablePlaceholder from '@/components/TablePlaceholder.vue'
+import ip from 'ip'
+import ServiceTable from '@/components/ServiceTable.vue'
+
+const ipAddress = ip.address()
+// eslint-disable-next-line
+console.log(ipAddress)
 
 export default {
   name: 'app',
@@ -35,6 +41,7 @@ export default {
         { position: 3, title: 'updated at', data: 'updatedAt'}, 
       ],
       socket : io('localhost:5000'),
+      socket : io(`${ipAddress || 'localhost'}:5000`),
       hasConnection: false
     }
   },
