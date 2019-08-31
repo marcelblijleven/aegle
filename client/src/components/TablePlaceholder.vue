@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import TableComponent from '@/components/table/TableComponent.vue'
+import TableComponent from '@/components/TableComponent.vue'
 
 export default {
   props: {
