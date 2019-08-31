@@ -3,7 +3,11 @@
     <table>
       <table-head v-for="column in columns" :key="column.position" :title="column.title" />
       <tbody>
-        <table-row v-for="(item, index) in data" :key="`item-${index}`" :item="item" :columns="columns" />
+        <table-row v-for="(item, index) in data" :key="`item-${index}`">
+          <table-data><status-indicator :status="item.status" /></table-data>
+          <table-data>{{ item.name }}</table-data>
+          <table-data>{{ item.updatedAt }}</table-data>
+        </table-row>
       </tbody>
     </table>
   </div>
@@ -12,6 +16,8 @@
 <script>
 import TableHead from './TableHead.vue'
 import TableRow from './TableRow.vue'
+import TableData from './TableData.vue'
+import StatusIndicator from './StatusIndicator.vue'
 
 export default {
   props: {
@@ -20,7 +26,9 @@ export default {
   },
   components: {
     TableHead,
-    TableRow
+    TableRow,
+    TableData,
+    StatusIndicator
   },
   mounted() {
     this.columns = this.sortColumns(this.columns)

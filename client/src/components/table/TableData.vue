@@ -1,5 +1,5 @@
 <template>
-  <td> {{ content }}</td>
+  <td><slot /></td>
 </template>
 
 <script>
