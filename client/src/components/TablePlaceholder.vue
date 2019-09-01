@@ -1,6 +1,9 @@
 <template>
   <div class="table-placeholder">
-    <div v-if="!connected">No connection to the Aegle server</div>
+    <div v-if="!connected">
+      <p>No connection to the Aegle server</p>
+      <p>Server: {{ server }}</p>
+    </div>
     <div v-else-if="!hasServices">No services configured on the server</div>
     <table-component v-else :data="services" :columns="columns" />
   </div>
@@ -13,7 +16,8 @@ export default {
   props: {
     services: Array,
     columns: Array,
-    connected: Boolean
+    connected: Boolean,
+    server: String
   },
   computed: {
     hasServices: function() {
