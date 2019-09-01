@@ -1,9 +1,7 @@
 <template>
   <div id='app'>
     <v-app id='inspire'>
-      <v-app-bar app clipped>
-        <v-toolbar-title>Healthchecks</v-toolbar-title>
-      </v-app-bar>
+      <toolbar :title="title" />
       <v-content>
         <v-container fluid>
           <v-row>
@@ -26,16 +24,19 @@
 <script>
 import io from 'socket.io-client'
 import TablePlaceholder from '@/components/TablePlaceholder.vue'
+import Toolbar from '@/components/Toolbar.vue'
 
 const serverAddress = `${process.env.VUE_APP_SERVER_IP || 'localhost'}:5000`
 
 export default {
   name: 'app',
   components: {
-    TablePlaceholder
+    TablePlaceholder,
+    Toolbar,
   },
   data() {
     return {
+      title: 'Healthchecks',
       serverAddress: serverAddress,
       justify: 'center',
       alignment: 'center',
@@ -74,9 +75,6 @@ export default {
         this.sortServices(this.services)
       }
     })
-  },
-  created() {
-    this.$vuetify.theme.dark = false
   },
   methods: {
     sortServices: function(services) {
