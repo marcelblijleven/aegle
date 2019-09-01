@@ -1,20 +1,24 @@
 <template>
   <div id='app'>
     <v-app id='inspire'>
-      <v-container fluid>
-        <v-row>
-          <v-col />
-          <v-col :cols="12" :sm="8">
-            <h1 class="text-left">Aegle healthchecks</h1>
-            <table-placeholder 
-              :services="services" 
-              :connected="hasConnection" 
-              :server="serverAddress"
-            />
-          </v-col>
-          <v-col />
-        </v-row>
-      </v-container>
+      <v-app-bar app clipped>
+        <v-toolbar-title>Healthchecks</v-toolbar-title>
+      </v-app-bar>
+      <v-content>
+        <v-container fluid>
+          <v-row>
+            <v-col />
+            <v-col :cols="12" :sm="8">
+              <table-placeholder 
+                :services="services" 
+                :connected="hasConnection" 
+                :server="serverAddress"
+              />
+            </v-col>
+            <v-col />
+          </v-row>
+        </v-container>
+      </v-content>
     </v-app>
   </div>
 </template>
