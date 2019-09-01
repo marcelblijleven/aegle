@@ -1,8 +1,14 @@
 <template>
-  <div :class="['status', currentStatus]" />
+  <v-icon 
+    class='indicator'
+    :color="color"
+    :small="true">
+    {{ iconName }}
+  </v-icon>
 </template>
 
 <script>
+
 export default {
   props: {
     status: {
@@ -11,28 +17,41 @@ export default {
     }
   },
   computed: {
+    iconName: function() {
+      let name
+
+      switch (this.status) {
+        case 'pending':
+          name = 'mdi-checkbox-blank-circle-outline'
+          break
+        case 'unhealthy':
+          name = 'mdi-alert-circle'
+          break
+        case 'healthy':
+          name = 'mdi-checkbox-blank-circle'
+          break
+        default:
+          name = 'mdi-checkbox-blank-circle-outline'
+      }
+      return name
+    },
+    color: function() {
+      const colors = {
+        pending: 'grey',
+        healthy: 'green',
+        unhealthy: 'red',
+      }
+      return colors[this.status]
+    },
     currentStatus: function() {
-      return `status-${this.status}`
+      return this.status
     }
   }
 }
 </script>
 
 <style scoped>
-  .status {
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: grey;
-  }
-
-  .status-healthy {
-    background-color: green;
-  }
-
-  .status-unhealthy {
-    background-color: red;
+  .indicator {
+    padding-right: 0;
   }
 </style>
