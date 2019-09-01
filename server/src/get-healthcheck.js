@@ -1,8 +1,8 @@
-const fetch = require('node-fetch')
+const axios = require('axios')
 const isEqual = require('./is-equal')
 
 async function get(url) {
-  const response = await fetch(url, { method: 'GET', timeout: process.env.POLL_TIMEOUT || 15 * 1000 } )
+  const response = await axios.get(url, { timeout: process.env.POLL_TIMEOUT || 15 * 1000 })
   return response
 }
 
@@ -21,10 +21,11 @@ async function checkHealthCheck(response, service) {
     return response.status === 200
   }
 
-  const value = await response.text()
+  const value = await response.data
 
   if (service.type === 'json') {
-    return isEqual(JSON.parse(value), service.healthyValue)
+    // return isEqual(JSON.parse(value), service.healthyValue)
+    return isEqual(value, service.healthyValue)
   }
 
   return isEqual(value, service.healthyValue)
