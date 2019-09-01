@@ -1,14 +1,18 @@
 <template>
   <div id='app'>
     <v-app id='inspire'>
-      <v-container fluid dark>
-        <v-row :align="alignment" :justify="justify">
-          <v-col :sm="0" :md="2" />
-          <v-col :sm="12" :md="8">
-            <h1>Aegle healthchecks</h1>
-            <table-placeholder :services="services" :columns="columns" :connected="hasConnection" />
+      <v-container fluid>
+        <v-row>
+          <v-col />
+          <v-col :cols="12" :sm="8">
+            <h1 class="text-left">Aegle healthchecks</h1>
+            <table-placeholder 
+              :services="services" 
+              :connected="hasConnection" 
+              :server="serverAddress"
+            />
           </v-col>
-          <v-col :sm="0" :md="2" />
+          <v-col />
         </v-row>
       </v-container>
     </v-app>
@@ -18,12 +22,8 @@
 <script>
 import io from 'socket.io-client'
 import TablePlaceholder from '@/components/TablePlaceholder.vue'
-import ip from 'ip'
-import ServiceTable from '@/components/ServiceTable.vue'
 
-const ipAddress = ip.address()
-// eslint-disable-next-line
-console.log(ipAddress)
+const serverAddress = `${process.env.VUE_APP_SERVER_IP || 'localhost'}:5000`
 
 export default {
   name: 'app',
@@ -32,16 +32,11 @@ export default {
   },
   data() {
     return {
+      serverAddress: serverAddress,
       justify: 'center',
       alignment: 'center',
       services: [],
-      columns: [
-        { position: 1, title: '', data: 'status'},
-        { position: 2, title: 'name', data: 'name'},
-        { position: 3, title: 'updated at', data: 'updatedAt'}, 
-      ],
-      socket : io('localhost:5000'),
-      socket : io(`${ipAddress || 'localhost'}:5000`),
+      socket : io(`${process.env.VUE_APP_SERVER_IP || 'localhost'}:5000`),
       hasConnection: false
     }
   },
