@@ -5,7 +5,7 @@
       <p>Server: {{ server }}</p>
     </div>
     <div v-else-if="!hasServices">No services configured on the server</div>
-    <table-component v-else :data="services" :columns="columns" />
+    <table-component v-else :services="services" :columns="columns" />
   </div>
 </template>
 

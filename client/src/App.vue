@@ -65,8 +65,9 @@ export default {
       
       this.services.find(service => {
         if (service.id === message.service.id) {
-          service.status = message.service.status;
-          service.updatedAt = message.service.updatedAt;
+          service.status = message.service.status
+          service.updatedAt = message.service.updatedAt
+          service.responseTimes = message.service.responseTimes
         }
       })
 

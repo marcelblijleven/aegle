@@ -1,6 +1,5 @@
 const updateWebhook = require('../../src/update-webhook')
-const fetch = require('node-fetch')
-jest.mock('node-fetch')
+const mockAxios = require('axios')
 
 describe('updateWebhook', function() {
   afterEach(function() {
@@ -11,7 +10,7 @@ describe('updateWebhook', function() {
     console.error = jest.fn()
     updateWebhook('testmessage')
     expect(console.error).toHaveBeenCalled()
-    expect(fetch).not.toHaveBeenCalled()
+    expect(mockAxios.post).not.toHaveBeenCalled()
   })
 
   test('It should not update webhook when webhook url is empty', function() {
@@ -19,7 +18,7 @@ describe('updateWebhook', function() {
     console.error = jest.fn()
     updateWebhook('testmessage')
     expect(console.error).toHaveBeenCalled()
-    expect(fetch).not.toHaveBeenCalled()
+    expect(mockAxios.post).not.toHaveBeenCalled()
   })
 
   test('It should call the update webhook with the provided message', function() {
@@ -29,12 +28,11 @@ describe('updateWebhook', function() {
     const message = 'hello world'
     const body = JSON.stringify({text: message})
     const options = {
-      method: 'post',
-      body: body,
+      data: body,
       headers: { 'Content-Type': 'application/json' }
     }
     updateWebhook(message)
-    expect(fetch).toHaveBeenCalledWith('https://fake.slack.url/', options)
+    expect(mockAxios.post).toHaveBeenCalledWith('https://fake.slack.url/', options)
   })
 
   test('It should not call the update when webhook is not a slack webhook', function() {
@@ -43,12 +41,12 @@ describe('updateWebhook', function() {
 
     const message = 'hello world'
     updateWebhook(message)
-    expect(fetch).not.toHaveBeenCalledWith()
+    expect(mockAxios.post).not.toHaveBeenCalledWith()
   })
 
   test('It should log the error when it occurs', async() => {
     process.env.WEBHOOK = 'https://fake.slack.url/'
-    fetch.mockReturnValue(Promise.reject(new Error('mock error')))
+    mockAxios.post.mockReturnValue(Promise.reject(new Error('mock error')))
     console.error = jest.fn()
     await updateWebhook('hello world')
     expect(console.error).toHaveBeenCalled()
