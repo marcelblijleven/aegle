@@ -4,6 +4,7 @@ const getHealthCheck = require('../../src/get-healthcheck')
 
 const ioMock = {}
 const updatedAt = new Date(2019, 7, 6, 0, 0, 0).toLocaleString('nl')
+const { getJsonService, getHtmlService, getTextService } = require('../helpers/service-factory') 
 
 describe('getHealthcheck', function () {
   beforeEach(() => {
@@ -16,19 +17,12 @@ describe('getHealthcheck', function () {
   })
 
   test('Succesfully calling endpoint with correct healthy value', async () => {
-    const mockService = {
-      name: 'testService',
-      url: 'http://localhost',
-      healthyValue: {
-        status: "Alive and kicking"
-      },
-      type: 'json'
-    }
-
+    const mockService = getJsonService()
     const callbackMock = jest.fn()
     const mockResponse = { 
       status: 200,
-      data: { status: "Alive and kicking" } 
+      data: { status: "Alive and kicking" },
+      duration: 1000
     }
 
     // Setup mock response for the axios call
@@ -45,6 +39,7 @@ describe('getHealthcheck', function () {
         type: 'json',
         updatedAt: updatedAt,
         url: 'http://localhost',
+        responseTimes: [1000]
       }
     }
 
@@ -56,19 +51,15 @@ describe('getHealthcheck', function () {
   })
 
   test('Succesfully calling endpoint with incorrect healthy value', async () => {
-    const mockService = {
-      name: 'testService',
-      url: 'http://localhost',
-      healthyValue: {
-        status: "Alive and kicking"
-      },
-      type: 'json'
-    }
-
+    const mockService = getJsonService()
     const callbackMock = jest.fn()
 
     // Setup mock response for the axios call
-    mockAxios.get.mockReturnValue(Promise.reject(new Error('mock error')))
+    const mockResponse = {
+      message: 'mock error',
+      duration: 1000
+    }
+    mockAxios.get.mockReturnValue(Promise.reject(mockResponse))
     console.error = jest.fn()
 
     await getHealthCheck(mockService, ioMock, callbackMock)
@@ -82,6 +73,7 @@ describe('getHealthcheck', function () {
         type: 'json',
         updatedAt: updatedAt,
         url: 'http://localhost',
+        responseTimes: [1000]
       }
     }
 
@@ -93,19 +85,12 @@ describe('getHealthcheck', function () {
   })
 
   test('Receiving a status code other than 200', async () => {
-    const mockService = {
-      name: 'testService',
-      url: 'http://localhost',
-      healthyValue: {
-        status: "Alive and kicking"
-      },
-      type: 'json'
-    }
-
+    const mockService = getJsonService()
     const callbackMock = jest.fn()
     const errorResponse503 = {
       status: 503,
-      statusText: '503 Service unavailable'
+      statusText: '503 Service unavailable',
+      duration: 1000
     }
     mockAxios.get.mockReturnValue(Promise.resolve(errorResponse503))
 
@@ -120,6 +105,7 @@ describe('getHealthcheck', function () {
         type: 'json',
         updatedAt: updatedAt,
         url: 'http://localhost',
+        responseTimes: [1000]
       }
     }
 
@@ -131,17 +117,13 @@ describe('getHealthcheck', function () {
   })
 
   test('Receiving a response for html pages', async () => {
-    const mockService = {
-      name: 'htmlService',
-      url: 'http://localhost',
-      healthyValue: '', // No need for healthy value for html pages
-      type: 'html'
-    }
+    const mockService = getHtmlService()
 
     const callbackMock = jest.fn()
     const response = { 
       status: 200,
-      data: '<h1>Hello</h1>'
+      data: '<h1>Hello</h1>',
+      duration: 1000
     }
 
     mockAxios.get.mockReturnValue(Promise.resolve(response))
@@ -154,6 +136,7 @@ describe('getHealthcheck', function () {
         type: 'html',
         updatedAt: updatedAt,
         url: 'http://localhost',
+        responseTimes: [1000]
       }
     }
 
@@ -165,18 +148,14 @@ describe('getHealthcheck', function () {
   })
 
   test('Receiving a non 200 response for html pages', async () => {
-    const mockService = {
-      name: 'htmlService',
-      url: 'http://localhost',
-      healthyValue: '', // No need for healthy value for html pages
-      type: 'html'
-    }
+    const mockService = getHtmlService()
 
     const callbackMock = jest.fn()
 
     const response = { 
       status: 404,
-      data: '<h1>Hello</h1>'
+      data: '<h1>Hello</h1>',
+      duration: 1000
     }
 
     mockAxios.get.mockReturnValue(Promise.resolve(response))
@@ -189,6 +168,7 @@ describe('getHealthcheck', function () {
         type: 'html',
         updatedAt: updatedAt,
         url: 'http://localhost',
+        responseTimes: [1000]
       }
     }
 
@@ -200,18 +180,14 @@ describe('getHealthcheck', function () {
   })
 
   test('Receiving a plain text response with healthy value', async () => {
-    const mockService = {
-      name: 'textService',
-      url: 'http://localhost',
-      healthyValue: '200 OK',
-      type: 'text'
-    }
+    const mockService = getTextService()
 
     const callbackMock = jest.fn()
 
     const response = {
       status: 200,
-      data: '200 OK'
+      data: '200 OK',
+      duration: 1000
     }
     mockAxios.get.mockReturnValue(Promise.resolve(response))
     await getHealthCheck(mockService, ioMock, callbackMock)
@@ -223,6 +199,7 @@ describe('getHealthcheck', function () {
         type: 'text',
         updatedAt: updatedAt,
         url: 'http://localhost',
+        responseTimes: [1000]
       }
     }
 
@@ -234,18 +211,14 @@ describe('getHealthcheck', function () {
   })
 
   test('Receiving a plain text response with unhealthy value', async () => {
-    const mockService = {
-      name: 'textService',
-      url: 'http://localhost',
-      healthyValue: '200 OK',
-      type: 'text'
-    }
+    const mockService = getTextService()
 
     const callbackMock = jest.fn()
 
     const response = {
       status: 200,
-      data: 'Turtle'
+      data: 'Turtle',
+      duration: 1000
     }
     mockAxios.get.mockReturnValue(Promise.resolve(response))
     await getHealthCheck(mockService, ioMock, callbackMock)
@@ -257,6 +230,7 @@ describe('getHealthcheck', function () {
         type: 'text',
         updatedAt: updatedAt,
         url: 'http://localhost',
+        responseTimes: [1000]
       }
     }
 
@@ -268,19 +242,15 @@ describe('getHealthcheck', function () {
   })
 
   test('Receiving a plain text response with 500 status', async () => {
-    const mockService = {
-      name: 'textService',
-      url: 'http://localhost',
-      healthyValue: '200 OK',
-      type: 'text'
-    }
+    const mockService = getTextService()
 
     const callbackMock = jest.fn()
 
     const response = {
-      status: 500
+      status: 500,
+      duration: 1000
     }
-    mockAxios.get.mockReturnValue(Promise.resolve(response))
+    mockAxios.get.mockReturnValue(Promise.reject(response))
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
       service: {
@@ -290,6 +260,7 @@ describe('getHealthcheck', function () {
         type: 'text',
         updatedAt: updatedAt,
         url: 'http://localhost',
+        responseTimes: [1000]
       }
     }
 
