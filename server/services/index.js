@@ -32,6 +32,7 @@ function getServices(dir) {
     service['id'] = 'a' + Math.random().toString(36).substr(2, 4)
     service['status'] = null
     service['updatedAt'] = null
+    service['responseTimes'] = []
   }
 
   return services
