@@ -8,41 +8,26 @@
         <th class="text-left hidden-xs-only">Response times</th>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data" :key="`item-${index}`">
-          <td class="indicator"><status-indicator :status="item.status" /></td>
-          <td class="pl8 text-left">{{ item.name }}</td>
-          <td class="text-left">{{ item.updatedAt }}</td>
-          <td class="hidden-xs-only">
-            <spark-line :times="times"></spark-line>
-          </td>
-        </tr>
+        <table-row v-for="(service, index) in services" :service="service" :key="`service-${index}`"></table-row>
       </tbody>
     </v-simple-table>
   </div>
 </template>
 
 <script>
-import SparkLine from './SparkLine.vue'
-import StatusIndicator from './StatusIndicator.vue'
+import TableRow from './TableRow.vue'
 
 export default {
   props: {
-    data: Array,
+    services: Array,
   },
   components: {
-    StatusIndicator,
-    SparkLine
-  },
-  computed: {
-    times: function() {
-      // Dummy function to prepare for actual response times
-      return Array.from({length: 5}, () => Math.floor(Math.random() * 30))
-    }
+    TableRow,
   },
 }
 </script>
 
-<style scoped>
+<style>
   .indicator {
     padding-left: 4px !important;
     padding-right: 0px !important;
