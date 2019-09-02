@@ -27,7 +27,7 @@
   ]
   export default {
     props: {
-      times: Array,
+      values: Array,
     },
     data: function() {
       return {
@@ -36,7 +36,7 @@
         padding: 8,
         lineCap: 'round',
         gradient: gradients[5],
-        value: this.times,
+        value: this.values,
         gradientDirection: 'top',
         gradients,
         fill: false,
