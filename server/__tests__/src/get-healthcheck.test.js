@@ -1,4 +1,6 @@
-const mockAxios = require('axios')
+jest.mock('node-fetch')
+const fetch = require('node-fetch')
+const { Response } = jest.requireActual('node-fetch')
 const { advanceTo, clear } = require('jest-date-mock')
 const getHealthCheck = require('../../src/get-healthcheck')
 
@@ -25,8 +27,8 @@ describe('getHealthcheck', function () {
       duration: 1000
     }
 
-    // Setup mock response for the axios call
-    mockAxios.get.mockReturnValue(Promise.resolve(mockResponse))
+    // Setup mock response for the fetch call
+    fetch.mockReturnValue(Promise.resolve(JSON.stringify(mockResponse)))
 
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
@@ -43,8 +45,8 @@ describe('getHealthcheck', function () {
       }
     }
 
-    expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockAxios.get).toHaveBeenCalledWith(mockService.url, {
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, {
       timeout: 15000
     })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
@@ -54,12 +56,12 @@ describe('getHealthcheck', function () {
     const mockService = getJsonService()
     const callbackMock = jest.fn()
 
-    // Setup mock response for the axios call
+    // Setup mock response for the fetch call
     const mockResponse = {
       message: 'mock error',
       duration: 1000
     }
-    mockAxios.get.mockReturnValue(Promise.reject(mockResponse))
+    fetch.mockReturnValue(Promise.reject(mockResponse))
     console.error = jest.fn()
 
     await getHealthCheck(mockService, ioMock, callbackMock)
@@ -77,8 +79,8 @@ describe('getHealthcheck', function () {
       }
     }
 
-    expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockAxios.get).toHaveBeenCalledWith(mockService.url, {
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, {
       timeout: 15000
     })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
@@ -92,7 +94,7 @@ describe('getHealthcheck', function () {
       statusText: '503 Service unavailable',
       duration: 1000
     }
-    mockAxios.get.mockReturnValue(Promise.resolve(errorResponse503))
+    fetch.mockReturnValue(Promise.resolve(errorResponse503))
 
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
@@ -109,8 +111,8 @@ describe('getHealthcheck', function () {
       }
     }
 
-    expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockAxios.get).toHaveBeenCalledWith(mockService.url, {
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, {
       timeout: 15000
     })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
@@ -126,7 +128,7 @@ describe('getHealthcheck', function () {
       duration: 1000
     }
 
-    mockAxios.get.mockReturnValue(Promise.resolve(response))
+    fetch.mockReturnValue(Promise.resolve(response))
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
       service: {
@@ -140,8 +142,8 @@ describe('getHealthcheck', function () {
       }
     }
 
-    expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockAxios.get).toHaveBeenCalledWith(mockService.url, {
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, {
       timeout: 15000
     })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
@@ -158,7 +160,7 @@ describe('getHealthcheck', function () {
       duration: 1000
     }
 
-    mockAxios.get.mockReturnValue(Promise.resolve(response))
+    fetch.mockReturnValue(Promise.resolve(response))
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
       service: {
@@ -172,8 +174,8 @@ describe('getHealthcheck', function () {
       }
     }
 
-    expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockAxios.get).toHaveBeenCalledWith(mockService.url, {
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, {
       timeout: 15000
     })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
@@ -189,7 +191,7 @@ describe('getHealthcheck', function () {
       data: '200 OK',
       duration: 1000
     }
-    mockAxios.get.mockReturnValue(Promise.resolve(response))
+    fetch.mockReturnValue(Promise.resolve(response))
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
       service: {
@@ -203,8 +205,8 @@ describe('getHealthcheck', function () {
       }
     }
 
-    expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockAxios.get).toHaveBeenCalledWith(mockService.url, {
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, {
       timeout: 15000
     })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
@@ -220,7 +222,7 @@ describe('getHealthcheck', function () {
       data: 'Turtle',
       duration: 1000
     }
-    mockAxios.get.mockReturnValue(Promise.resolve(response))
+    fetch.mockReturnValue(Promise.resolve(response))
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
       service: {
@@ -234,8 +236,8 @@ describe('getHealthcheck', function () {
       }
     }
 
-    expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockAxios.get).toHaveBeenCalledWith(mockService.url, {
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, {
       timeout: 15000
     })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)
@@ -250,7 +252,7 @@ describe('getHealthcheck', function () {
       status: 500,
       duration: 1000
     }
-    mockAxios.get.mockReturnValue(Promise.reject(response))
+    fetch.mockReturnValue(Promise.reject(response))
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
       service: {
@@ -264,8 +266,8 @@ describe('getHealthcheck', function () {
       }
     }
 
-    expect(mockAxios.get).toHaveBeenCalledTimes(1)
-    expect(mockAxios.get).toHaveBeenCalledWith(mockService.url, {
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledWith(mockService.url, {
       timeout: 15000
     })
     expect(callbackMock).toHaveBeenCalledWith(expected, ioMock)

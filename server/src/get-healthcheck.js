@@ -1,27 +1,27 @@
-const axios = require('axios')
+const fetch = require('node-fetch')
 const isEqual = require('./is-equal')
 
-// Measure axios response times
-axios.interceptors.request.use(function (config) {
-  config.metadata = { startTime: new Date()}
-  return config
-}, function (error) {
-  return Promise.reject(error)
-})
-
-axios.interceptors.response.use(function (response) {
-  response.config.metadata.endTime = new Date()
-  response.duration = response.config.metadata.endTime - response.config.metadata.startTime
-  return response;
-}, function (error) {
-  error.config.metadata.endTime = new Date();
-  error.duration = error.config.metadata.endTime - error.config.metadata.startTime;
-  return Promise.reject(error);
-});
-
 async function get(url) {
-  const response = await axios.get(url, { timeout: process.env.POLL_TIMEOUT || 15 * 1000 })
-  return response
+  const startTime = new Date()
+  return fetch(url, { timeout: process.env.POLL_TIMEOUT || 15 * 1000 })
+    .then(response => {
+      const endTime = new Date()
+      response.duration = endTime - startTime
+      return response.text().then(text => {
+        try {
+          response.data = JSON.parse(text)
+        }
+        catch (err) {
+          response.data = text
+        }
+        return response
+      })
+    })
+    .catch(error => {
+      const endTime = new Date()
+      error.duration = endTime - startTime
+      return Promise.reject(error)
+    })
 }
 
 function addResponseTimesToService(service, response) {
@@ -47,12 +47,13 @@ async function checkHealthCheck(response, service) {
     return response.status === 200
   }
 
-  const value = await response.data
+  const value = response.data
 
   if (service.type === 'json') {
-    return isEqual(value, service.healthyValue)
+    console.log(JSON.parse(value), service.healthyValue)
+    return isEqual(JSON.parse(value), service.healthyValue)
   }
-
+  console.log(value, service.healthyValue)
   return isEqual(value, service.healthyValue)
 }
 
