@@ -1,7 +1,7 @@
 <template>
   <div class="sparkline">
     <v-sparkline
-      :value="value"
+      :value="values"
       :gradient="gradient"
       :smooth="radius || false"
       :padding="padding"
@@ -36,7 +36,6 @@
         padding: 8,
         lineCap: 'round',
         gradient: gradients[5],
-        value: this.values,
         gradientDirection: 'top',
         gradients,
         fill: false,
