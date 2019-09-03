@@ -1,10 +1,11 @@
-const axios = require('axios')
+const fetch = require('node-fetch')
 
 async function postMessage(body) {
   const url = process.env.WEBHOOK
   const options = {
+    method: 'post',
     headers: { 'Content-Type': 'application/json' },
-    data: body
+    body: body
   }
 
   const response = await axios.post(url, options)
