@@ -4,11 +4,12 @@ const { Headers, Response } = jest.requireActual('node-fetch')
 const { advanceTo, clear } = require('jest-date-mock')
 
 const get = require('../../../src/healthcheck/get')
-const { createResponseObject, createError } = require('../../../src/healthcheck/utils')
+const { createResponseObject } = require('../../../src/healthcheck/utils')
 
 const jsonHeaders = new Headers({ 'Content-Type' : 'application/json' })
 const htmlHeaders = new Headers({ 'Content-Type' : 'text/html' })
 const textHeaders = new Headers({ 'Content-Type' : 'text/plain' })
+const incorrectHeaders = new Headers({ 'Content-Type' : 'image/jpeg' })
 
 describe('get', function() {
   beforeAll(function() {
@@ -42,7 +43,7 @@ describe('get', function() {
 
     test('Response with invalid json body', async () => {
       // Setup fetch response inside 'get'
-      const fetchMockResponse = new Response('body', { status: 200, headers: jsonHeaders })
+      const fetchMockResponse = new Response('incorrect json body', { status: 200, headers: jsonHeaders })
       fetch.mockReturnValue(Promise.resolve(fetchMockResponse))
       await expect(get('http://localhost')).rejects.toThrow(/Unexpected token/)
     })
@@ -61,9 +62,7 @@ describe('get', function() {
     test('Response with invalid html body', async () => {
       // Setup fetch response inside 'get'
       const fetchMockResponse = new Response('body', { status: 200, headers: htmlHeaders })
-      fetchMockResponse.text = function() {
-        throw new Error('Html error')
-      }
+      fetchMockResponse.text = jest.fn(() => Promise.reject(new Error('html error')))
       fetch.mockReturnValue(Promise.resolve(fetchMockResponse))
       await expect(get('http://localhost')).rejects.toThrow()
     })
@@ -73,7 +72,7 @@ describe('get', function() {
     test('Response with valid text body', async () => {
       // Setup fetch response inside 'get'
       const body = 'Hello world'
-      const fetchMockResponse = new Response(body, { status: 200, headers: htmlHeaders })
+      const fetchMockResponse = new Response(body, { status: 200, headers: textHeaders })
       fetch.mockReturnValue(Promise.resolve(fetchMockResponse))
       const value = await get('http://localhost')
       expect(value).toEqual(createResponseObject(fetchMockResponse, body, new Date()))
@@ -81,12 +80,17 @@ describe('get', function() {
 
     test('Response with invalid text body', async () => {
       // Setup fetch response inside 'get'
-      const fetchMockResponse = new Response('body', { status: 200, headers: htmlHeaders })
-      fetchMockResponse.text = function() {
-        throw new Error('Text error')
-      }
+      const fetchMockResponse = new Response('body', { status: 200, headers: textHeaders })
+      fetchMockResponse.text = jest.fn(() => Promise.reject(new Error('html error')))
       fetch.mockReturnValue(Promise.resolve(fetchMockResponse))
       await expect(get('http://localhost')).rejects.toThrow(/Text error/)
     })
+  })
+
+  test('Invalid content type', async () => {
+    // Setup fetch response inside 'get'
+    const fetchMockResponse = new Response('body', { status: 200, headers: incorrectHeaders })
+    fetch.mockReturnValue(Promise.resolve(fetchMockResponse))
+    await expect(get('http://localhost')).rejects.toThrow(/Invalid content type/)
   })
 })
