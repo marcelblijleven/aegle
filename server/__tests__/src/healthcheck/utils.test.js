@@ -59,7 +59,7 @@ describe('Healthcheck utils', function() {
     test('Correctly map error message to error instance', function() {
       const mockError = new Error('Test error')
       const value = createError(mockError, new Date())
-      expect(value.message).toEqual('Error: Test error')
+      expect(value.message).toEqual('Test error')
     })
   })
 })

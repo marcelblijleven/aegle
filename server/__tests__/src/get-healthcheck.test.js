@@ -28,7 +28,7 @@ describe('getHealthcheck', function () {
     }
 
     // Setup mock response for the fetch call
-    fetch.mockReturnValue(Promise.resolve(JSON.stringify(mockResponse)))
+    fetch.mockReturnValue(Promise.resolve(new Response(mockResponse)))
 
     await getHealthCheck(mockService, ioMock, callbackMock)
     const expected = {
@@ -41,7 +41,7 @@ describe('getHealthcheck', function () {
         type: 'json',
         updatedAt: updatedAt,
         url: 'http://localhost',
-        responseTimes: [1000]
+        responseTimes: [0]
       }
     }
 
@@ -75,7 +75,7 @@ describe('getHealthcheck', function () {
         type: 'json',
         updatedAt: updatedAt,
         url: 'http://localhost',
-        responseTimes: [1000]
+        responseTimes: [0]
       }
     }
 
@@ -107,7 +107,7 @@ describe('getHealthcheck', function () {
         type: 'json',
         updatedAt: updatedAt,
         url: 'http://localhost',
-        responseTimes: [1000]
+        responseTimes: [0]
       }
     }
 
@@ -138,7 +138,7 @@ describe('getHealthcheck', function () {
         type: 'html',
         updatedAt: updatedAt,
         url: 'http://localhost',
-        responseTimes: [1000]
+        responseTimes: [0]
       }
     }
 
@@ -170,7 +170,7 @@ describe('getHealthcheck', function () {
         type: 'html',
         updatedAt: updatedAt,
         url: 'http://localhost',
-        responseTimes: [1000]
+        responseTimes: [0]
       }
     }
 
@@ -201,7 +201,7 @@ describe('getHealthcheck', function () {
         type: 'text',
         updatedAt: updatedAt,
         url: 'http://localhost',
-        responseTimes: [1000]
+        responseTimes: [0]
       }
     }
 
@@ -232,7 +232,7 @@ describe('getHealthcheck', function () {
         type: 'text',
         updatedAt: updatedAt,
         url: 'http://localhost',
-        responseTimes: [1000]
+        responseTimes: [0]
       }
     }
 
@@ -262,7 +262,7 @@ describe('getHealthcheck', function () {
         type: 'text',
         updatedAt: updatedAt,
         url: 'http://localhost',
-        responseTimes: [1000]
+        responseTimes: [0]
       }
     }
 

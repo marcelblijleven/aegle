@@ -81,7 +81,7 @@ describe('get', function() {
     test('Response with invalid text body', async () => {
       // Setup fetch response inside 'get'
       const fetchMockResponse = new Response('body', { status: 200, headers: textHeaders })
-      fetchMockResponse.text = jest.fn(() => Promise.reject(new Error('html error')))
+      fetchMockResponse.text = jest.fn(() => Promise.reject(new Error('Text error')))
       fetch.mockReturnValue(Promise.resolve(fetchMockResponse))
       await expect(get('http://localhost')).rejects.toThrow(/Text error/)
     })
