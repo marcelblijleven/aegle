@@ -1,6 +1,10 @@
 const { Response } = require('node-fetch')
-const { getContentType, createResponseObject, createError, ResponseError } = require('../../../src/healthcheck/utils')
+const utils = require('../../../src/healthcheck/utils')
 const { advanceBy, advanceTo, clear } = require('jest-date-mock')
+
+const getMockService = function() {
+  return { responseTimes: [] }
+}
 
 describe('Healthcheck utils', function() {
   describe('getContentType', function() {
@@ -8,13 +12,13 @@ describe('Healthcheck utils', function() {
       const mockResponse = new Response()
       const contentType = 'application/json'
       mockResponse.headers.set('Content-Type', contentType)
-      const type = getContentType(mockResponse)
+      const type = utils.getContentType(mockResponse)
       expect(type).toEqual(contentType)
     })
 
     test('Return the content type if it exists', function() {
       const mockResponse = new Response()
-      const type = getContentType(mockResponse)
+      const type = utils.getContentType(mockResponse)
       expect(type).toEqual('')
     })
   })
@@ -29,7 +33,7 @@ describe('Healthcheck utils', function() {
 
       const expected = { status: 200, data: { hello: 'World' }, duration: 1000 }
       advanceBy(1000) // Advance time by 1000ms
-      const value = createResponseObject(mockResponse, data, startTime)
+      const value = utils.createResponseObject(mockResponse, data, startTime)
       expect(value).toEqual(expected)
       
       // Reset new Date
@@ -45,9 +49,9 @@ describe('Healthcheck utils', function() {
       const startTime = new Date()
       
       advanceBy(1000)
-      const value = createError(mockError, startTime)
+      const value = utils.createError(mockError, startTime)
 
-      expect(value instanceof ResponseError).toEqual(true)
+      expect(value instanceof utils.ResponseError).toEqual(true)
 
       expect(value.duration).toEqual(1000)
 
@@ -58,8 +62,28 @@ describe('Healthcheck utils', function() {
 
     test('Correctly map error message to error instance', function() {
       const mockError = new Error('Test error')
-      const value = createError(mockError, new Date())
+      const value = utils.createError(mockError, new Date())
       expect(value.message).toEqual('Test error')
+    })
+  })
+
+  describe('addResponseTimesToService', function() {
+    test('Adding duration to response times', function() {
+      const service = getMockService()
+      const response = { duration: 1000 }
+      utils.addResponseTimesToService(service, response)
+      expect(service.responseTimes.length).toEqual(1)
+      expect(service.responseTimes[0]).toEqual(1000)
+    })
+
+    test('Adding the 21st item to response times', function() {
+      const service = getMockService()
+      const response = { duration: 1000 }
+      service.responseTimes = [0].concat(Array(19).fill(1000))
+      expect(service.responseTimes.length).toEqual(20)
+      utils.addResponseTimesToService(service, response)
+      expect(service.responseTimes.length).toEqual(20)
+      expect(service.responseTimes[0]).not.toEqual(0)
     })
   })
 })

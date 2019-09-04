@@ -21,9 +21,18 @@ function createError(error, startTime) {
   return new ResponseError(error, duration)
 }
 
+function addResponseTimesToService(service, response) {
+  service.responseTimes.push(response.duration)
+
+  if (service.responseTimes.length > 20) {
+    service.responseTimes = service.responseTimes.slice(1)
+  }
+}
+
 module.exports = {
   getContentType,
   createResponseObject,
   createError,
-  ResponseError
+  ResponseError,
+  addResponseTimesToService
 }
