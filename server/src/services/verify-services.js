@@ -1,16 +1,6 @@
 const isAbsoluteUrl = require('is-absolute-url')
 
-const props = ['name', 'url', 'healthyValue', 'type']
-const types = ['json', 'text', 'html']
-
-function serviceHasValidType(service) {
-   if (types.indexOf(service.type) === -1) {
-     console.error(`Server: unknown type '${service.type}'`)
-     return false
-   }
-
-   return true
-}
+const props = ['name', 'url', 'healthyValue']
 
 function serviceHasAbsoluteUrl(service) {
   if (!isAbsoluteUrl(service.url)) {
@@ -33,7 +23,7 @@ function verifyServices(obj) {
       }
     }
 
-    return check && serviceHasAbsoluteUrl(obj) && serviceHasValidType(obj)
+    return check && serviceHasAbsoluteUrl(obj)
   }
 }
 
