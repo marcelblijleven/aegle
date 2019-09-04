@@ -1,7 +1,7 @@
 <template>
   <div class="sparkline">
-    <v-sparkline
-      :value="value"
+    <v-sparkline v-if="values && values.length > 2"
+      :value="values"
       :gradient="gradient"
       :smooth="radius || false"
       :padding="padding"
@@ -27,7 +27,10 @@
   ]
   export default {
     props: {
-      values: Array,
+      values: {
+        type: Array,
+        default: [0]
+      },
     },
     data: function() {
       return {
@@ -36,7 +39,6 @@
         padding: 8,
         lineCap: 'round',
         gradient: gradients[5],
-        value: this.values,
         gradientDirection: 'top',
         gradients,
         fill: false,

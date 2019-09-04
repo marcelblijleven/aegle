@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const verifyServices = require('../src/verify-services')
+const verifyServices = require('../src/services/verify-services')
 
 const directory = __dirname
 

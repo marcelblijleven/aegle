@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 const Poller = require('./src/poller')
 const { initialiseStore } = require('./src/store')
 const services = require('./services')
-const pollServices = require('./src/poll-services')
+const pollServices = require('./src/services/poll-services')
 
 const port = process.env.SERVER_PORT || 5000
 const pollTime = process.env.POLL_TIMER || 60 * 1000

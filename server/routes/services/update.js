@@ -1,5 +1,5 @@
 const services = require('../../services')
-const pollServices = require('../../src/poll-services')
+const pollServices = require('../../src/services/poll-services')
 
 module.exports = function(req, res) {
   console.info('Server: updating services')
