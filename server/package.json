@@ -12,6 +12,9 @@
     "testMatch": ["**/?(*.)+(spec|test).[jt]s?(x)"],
     "setupFiles": [
       "jest-date-mock"
+    ],
+    "modulePaths": [
+      "<rootDir>"
     ]
   },
   "repository": {
