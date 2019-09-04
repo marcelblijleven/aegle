@@ -1,13 +1,13 @@
-const updateService = require('../../src/update-service')
+const updateService = require('../../../src/services/update-service')
 
-jest.mock('../../src/store', () => {
+jest.mock('../../../src/store', () => {
   return {
     store: { values: {} },
     updateStore: jest.fn()
   }
 })
 
-const { updateStore } = require('../../src/store')
+const { updateStore } = require('../../../src/store')
 const ioMock = {
   sockets: {
     emit: jest.fn()

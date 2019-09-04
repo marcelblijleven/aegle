@@ -1,7 +1,7 @@
-const pollServices = require('../../src/poll-services')
+const pollServices = require('../../../src/services/poll-services')
 
-jest.mock('../../src/get-healthcheck')
-const getHealthCheck = require('../../src/get-healthcheck')
+jest.mock('../../../src/healthcheck/get-healthcheck')
+const getHealthCheck = require('../../../src/healthcheck/get-healthcheck')
 
 const services = [
   {

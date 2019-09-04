@@ -1,4 +1,4 @@
-const { updateStore } = require('./store')
+const { updateStore } = require('../store')
 
 function updateService(result, io) {
   if (result) {

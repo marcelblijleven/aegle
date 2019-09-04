@@ -1,4 +1,4 @@
-const getHealthCheck = require('./get-healthcheck')
+const getHealthCheck = require('../healthcheck/get-healthcheck')
 const updateService = require('./update-service')
 
 async function pollServices(services, io) {
