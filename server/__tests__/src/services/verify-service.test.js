@@ -40,12 +40,6 @@ describe('verifyServices', function() {
     expect(console.error).toHaveBeenCalled()
   })
 
-  test('It should verify if the provided type is correct', function() {
-    console.error = jest.fn()
-    verifyServices({name: 'incorrectUrl', url: 'http://fake.url.nl/', type: 'response', healthyValue: '200 OK'})
-    expect(console.error).toHaveBeenCalledWith('Server: unknown type \'response\'')
-  })
-
   test('It should verify if the provided url is correct', function() {
     console.error = jest.fn()
     verifyServices({name: 'incorrectUrl', url: '/check', type: 'text', healthyValue: '200 OK'})
