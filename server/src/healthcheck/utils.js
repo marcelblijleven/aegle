@@ -12,7 +12,7 @@ function getContentType(response) {
 
 function createResponseObject(response, data, startTime) {
   const endTime = new Date()
-  return { status: response.status, data: data, duration: endTime - startTime }
+  return { status: response.status, ok: response.ok, data: data, duration: endTime - startTime }
 }
 
 function createError(error, startTime) {

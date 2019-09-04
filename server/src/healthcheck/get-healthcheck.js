@@ -10,7 +10,12 @@ async function getHealthCheck(service, io, callback) {
 
   try {
     response = await get(service.url, options)
-    healthy = isEqual(response.data, service.healthyValue)
+
+    if (response.ok && (service.healthyValue === undefined || service.healthyValue === '')) {
+      healthy = true
+    } else {
+      healthy = isEqual(response.data, service.healthyValue)
+    }
   }
   catch(err) {
     error = err

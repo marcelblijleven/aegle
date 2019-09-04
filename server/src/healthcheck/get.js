@@ -39,7 +39,7 @@ function get(url, options) {
       return Promise.reject(createError(new Error('Invalid content type', contentType), startTime))
     }
 
-    return Promise.reject(createError(new Error('Response status was not ok', response.status), startTime))
+    return Promise.reject(createError(new Error(`Response status was not ok for url ${url}`, response.status), startTime))
   })
   .catch(error => {
     return Promise.reject(createError(error, startTime))
