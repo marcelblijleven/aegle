@@ -4,13 +4,33 @@
 ## Quick start
 Run `npm install` in the root folder to install dependencies for both server and client.
 
-Add services to the ./server/services folder, see the `example-service.js` file for example services. You can add and export either a single service, or an array of services. The server will automatically include your services. For now, valid service types are:
+### Services
+Add services to the ./server/services folder, see the `example-service.js` file for example services. You can add and export either a single service, or an array of services. The server will automatically include your services.
 
-| type   | check |
-|--------|-------|
-| text | Will compare the received text response with the provided healthy value |
-| json | Will compare the received json response with the provided healthy value |
-| html | For now just checks if the server response is 200 |
+Examples
+Regular service
+```json
+{
+  "name": "regular-service",
+  "url": "http://localhost",
+  "healthyValue": { "status": "ok" }
+}
+```
+
+Dynamic service
+```json
+{
+  "name": "regular-service",
+  "url": "http://localhost/{path}",
+  "healthyValue": { "status": "ok" },
+  "params": {
+    "path": ["foo", "bar", "baz"]
+  }
+}
+```
+
+Add the properties of service.params to your url as placeholder, and all combinations will automatically be included in the list of services.
+
 
 ### dotenv
 The following dotenv variables are available: SERVER_PORT, POLL_TIMER, POLL_TIMEOUT, WEBHOOK
