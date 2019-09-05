@@ -13,6 +13,14 @@ const services = [
     name: 'HttpStatus200',
     url: 'https://httpstat.us/200',
     healthyValue: '200 OK'
+  },
+  {
+    name: 'Dynamic service url and path',
+    url: 'https://{host}/{path}',
+    params: {
+      host: ['example.com', 'example.org'],
+      path: ['hello', 'world', 'foo', 'bar']
+    }
   }
 ]
 

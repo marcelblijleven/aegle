@@ -1,6 +1,5 @@
 const isAbsoluteUrl = require('is-absolute-url')
-
-const props = ['name', 'url', 'healthyValue']
+const props = ['name', 'url']
 
 function serviceHasAbsoluteUrl(service) {
   if (!isAbsoluteUrl(service.url)) {
@@ -27,4 +26,6 @@ function verifyServices(obj) {
   }
 }
 
-module.exports = verifyServices
+module.exports = {
+  verifyServices
+}

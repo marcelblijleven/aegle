@@ -1,6 +1,8 @@
 const path = require('path')
 const fs = require('fs')
+const createDynamicServices = require('../src/services/create-dynamic-services')
 const verifyServices = require('../src/services/verify-services')
+const paramUtils = require('../src/services/param-utils')
 
 const directory = __dirname
 
@@ -15,9 +17,19 @@ function getServices(dir) {
       const requiredServices = require(path.join(dir, file))
 
       if (!Array.isArray(requiredServices)) {
-        services.push(requiredServices)
+        if (paramUtils.isDynamic(requiredServices)) {
+          services = services.concat(createDynamicServices(requiredServices))
+        } else {
+          services.push(requiredServices)
+        }
       } else {
-        services = services.concat(requiredServices)
+        for (const service of requiredServices) {
+          if (paramUtils.isDynamic(service)) {
+            services = services.concat(createDynamicServices(service))
+          } else {
+            services.push(service)
+          }
+        }
       }
     }
   })
@@ -35,7 +47,8 @@ function getServices(dir) {
     service['responseTimes'] = []
   }
 
-  return services
+  // Don't return the dynamic placeholder services
+  return services.filter(service => service.params === undefined)
 }
 
 module.exports = getServices(directory)

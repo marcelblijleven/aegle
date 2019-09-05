@@ -1,4 +1,4 @@
-const verifyServices = require('../../../src/services/verify-services')
+const { verifyServices } = require('../../../src/services/service-utils')
 
 const correctService = {
   name: 'service',
@@ -8,9 +8,7 @@ const correctService = {
 }
 
 const errorService = {
-  name: 'errorService',
-  url: 'http://fake.url.nl/',
-  type: 'html'
+  name: 'errorService'
 }
 
 describe('verifyServices', function() {
