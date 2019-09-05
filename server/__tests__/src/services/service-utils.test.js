@@ -1,4 +1,4 @@
-const verifyServices = require('../../../src/services/verify-services')
+const { verifyServices } = require('../../../src/services/service-utils')
 
 const correctService = {
   name: 'service',
@@ -8,9 +8,7 @@ const correctService = {
 }
 
 const errorService = {
-  name: 'errorService',
-  url: 'http://fake.url.nl/',
-  type: 'html'
+  name: 'errorService'
 }
 
 describe('verifyServices', function() {
@@ -38,12 +36,6 @@ describe('verifyServices', function() {
     console.error = jest.fn()
     verifyServices(errorService)
     expect(console.error).toHaveBeenCalled()
-  })
-
-  test('It should verify if the provided type is correct', function() {
-    console.error = jest.fn()
-    verifyServices({name: 'incorrectUrl', url: 'http://fake.url.nl/', type: 'response', healthyValue: '200 OK'})
-    expect(console.error).toHaveBeenCalledWith('Server: unknown type \'response\'')
   })
 
   test('It should verify if the provided url is correct', function() {
