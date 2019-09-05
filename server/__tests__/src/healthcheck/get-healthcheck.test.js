@@ -57,6 +57,40 @@ describe('getHealthcheck', function() {
     expect(callback).toBeCalledWith({ service: expected }, io)
   })
 
+  test('Calling callback with service with empty healthy value', async () => {
+    const service = getMockService()
+    const expected = getMockService()
+    const callback = jest.fn()
+    delete service.healthyValue
+
+    get.mockReturnValue(Promise.resolve({ data: '200 OK', ok: true, duration: 1000 }))
+    await getHealthcheck(service, io, callback)
+
+    delete expected.healthyValue
+    expected.responseTimes.push(1000)
+    expected.updatedAt = updatedAt
+    expected.status = 'healthy'
+  
+    expect(callback).toBeCalledWith({ service: expected }, io)
+  })
+
+  test('Calling callback with service with empty string healthy value', async () => {
+    const service = getMockService()
+    const expected = getMockService()
+    const callback = jest.fn()
+    service.healthyValue = ''
+
+    get.mockReturnValue(Promise.resolve({ data: '200 OK', ok: true, duration: 1000 }))
+    await getHealthcheck(service, io, callback)
+
+    expected.healthyValue = ''
+    expected.responseTimes.push(1000)
+    expected.updatedAt = updatedAt
+    expected.status = 'healthy'
+  
+    expect(callback).toBeCalledWith({ service: expected }, io)
+  })
+
   test('Calling callback with error response', async () => {
     const service = getMockService()
     const expected = getMockService()

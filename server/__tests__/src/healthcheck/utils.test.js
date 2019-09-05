@@ -31,7 +31,7 @@ describe('Healthcheck utils', function() {
       const mockResponse = new Response()
       mockResponse.status = 200
 
-      const expected = { status: 200, data: { hello: 'World' }, duration: 1000 }
+      const expected = { status: 200, ok: true, data: { hello: 'World' }, duration: 1000 }
       advanceBy(1000) // Advance time by 1000ms
       const value = utils.createResponseObject(mockResponse, data, startTime)
       expect(value).toEqual(expected)
