@@ -9,6 +9,8 @@ const Poller = require('./src/poller')
 const { initialiseStore } = require('./src/store')
 const services = require('./services')
 const pollServices = require('./src/services/poll-services')
+const getHealthcheck = require('./src/healthcheck/get-healthcheck')
+const updateService = require('./src/services/update-service')
 
 const port = process.env.SERVER_PORT || 5000
 const pollTime = process.env.POLL_TIMER || 60 * 1000
@@ -39,8 +41,21 @@ io.attach(server)
 
 io.on('connection', function(socket) {
   console.info('Server: Socket connected with ID', socket.id)
+  
   socket.emit('services', services) // Emit services to client
   pollServices(services, io)
+
+  socket.on('service:update', function(id, fn) {
+    const service = services.find(service => service.id === id)
+
+    if (service !== undefined) {
+      getHealthcheck(service, io, updateService)
+        .then(() => fn(true))
+        .catch(() => fn(false))
+    } else {
+      fn(false)
+    }
+  })
 })
 
 // Start polling
