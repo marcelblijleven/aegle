@@ -15,7 +15,7 @@ const services = [
     healthyValue: '200 OK'
   },
   {
-    name: 'Dynamic service url and path',
+    name: 'dynamic-service',
     url: 'https://{host}/{path}',
     params: {
       host: ['example.com', 'example.org'],

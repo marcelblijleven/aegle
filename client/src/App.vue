@@ -3,6 +3,7 @@
     <v-app id='inspire'>
       <toolbar :title="title" />
       <v-content>
+          <alert v-for="(alert, index) in alerts" :key="index" :alert="alert" />
           <v-container fluid>
             <v-row>
               <v-col></v-col>
@@ -18,13 +19,19 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
+import Alert from '@/components/Alert.vue'
 import Toolbar from '@/components/Toolbar.vue'
 
 export default {
   name: 'app',
   components: {
+    Alert,
     Toolbar,
+  },
+  computed: {
+    alerts() {
+      return this.$store.state.AlertsModule.alerts
+    }
   },
   data() {
     return {
@@ -32,24 +39,23 @@ export default {
       justify: 'center',
       alignment: 'center',
       services: [],
-      socket : io(`${process.env.VUE_APP_SERVER_IP || 'localhost'}:5000`),
       hasConnection: false
     }
   },
   mounted() {
-    this.socket.on('connect', () => {
+    this.$socket.on('connect', () => {
       this.$store.commit('updateConnection', true)
     })
 
-    this.socket.on('connect_error', () => {
+    this.$socket.on('connect_error', () => {
       this.$store.commit('updateConnection', false)
     })
 
-    this.socket.on('services', (message) => {
+    this.$socket.on('services', (message) => {
       this.$store.commit('addServices', this.sortServices(message))
     })
 
-    this.socket.on('service:update', (message) => {
+    this.$socket.on('service:update', (message) => {
       const serviceToUpdate = message.service
       const previousStatus = this.$store.getters.getServiceById(serviceToUpdate.id).status
       const newStatus = message.service.status

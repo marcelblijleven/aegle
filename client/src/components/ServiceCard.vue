@@ -12,7 +12,8 @@
         <v-spacer></v-spacer>
         <v-btn 
           text
-          :disabled=true>
+          :loading="loading"
+          @click="updateService">
           update
         </v-btn>
         <v-btn
@@ -29,19 +30,41 @@
 import SparkLine from '@/components/SparkLine.vue'
 
 export default {
+  name: 'ServiceCard',
   props: {
     id: String,
     service: Object
+  },
+  data() {
+    return {
+      loading: false
+    }
   },
   components: {
     SparkLine,
   },
   computed: {
-    times: function() {
+    times() {
       return this.service.responseTimes
     }
   },
+  methods: {
+    updateService() {
+      const component = this
+      component.loading = true
+      this.$socket.emit('service:update', this.service.id, function(success) {
+        component.loading = false
+        // eslint-disable-next-line
+        console.log(component.$store)
+        const text = success ? 'Service updated' : 'Service not updated'
+        const type = success ? 'success' : 'error'
+        component.$store.dispatch('add', { id: component.service.id, type, text })
+      })
+    }
+  },
   beforeRouteEnter (to, from, next) {
+    // Redirect back to home if service is undefined
+    // this happens when server restarts
     if (to.params.service === undefined) {
       next('/')
     }
