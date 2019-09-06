@@ -3,13 +3,16 @@
     <v-card v-if="!connected || !hasServices">
       <v-card-title>Oops!</v-card-title>
       <v-card-text class="text-left" v-if="!connected">
-        No connection to the socket server ({{ server }}).
+        No connection to the socket server ({{ this.$store.state.serverAddress }}).
       </v-card-text>
       <v-card-text class="text-left" v-else-if="!hasServices">
         No services configured on the server.
       </v-card-text>
     </v-card>
-    <table-component v-else :services="services" :columns="columns" />
+    <v-card v-else>
+      <v-card-title>Services</v-card-title>
+      <table-component :services="services" />
+    </v-card>
   </div>
 </template>
 
@@ -17,14 +20,14 @@
 import TableComponent from '@/components/TableComponent.vue'
 
 export default {
-  props: {
-    services: Array,
-    columns: Array,
-    connected: Boolean,
-    server: String
-  },
   computed: {
-    hasServices: function() {
+    connected() {
+      return this.$store.state.isConnected
+    },
+    services() {
+      return this.$store.state.services
+    },
+    hasServices() {
       return this.services && this.services.length > 0
     }
   },

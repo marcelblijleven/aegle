@@ -29,7 +29,7 @@
     props: {
       values: {
         type: Array,
-        default: [0]
+        default: () => [0]
       },
     },
     data: function() {
@@ -48,9 +48,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .sparkline {
-    width: 100px;
-  }
-</style>

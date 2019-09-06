@@ -1,8 +1,8 @@
 <template>
   <v-icon 
-    class='indicator'
+    class="indicator"
     :color="color"
-    :small="true">
+    :small="small">
     {{ iconName }}
   </v-icon>
 </template>
@@ -13,11 +13,12 @@ export default {
   props: {
     status: {
       type: String,
-      default: 'pending'
-    }
+      default: 'pending',
+    },
+    small: Boolean
   },
   computed: {
-    iconName: function() {
+    iconName() {
       let name
 
       switch (this.status) {
@@ -35,7 +36,7 @@ export default {
       }
       return name
     },
-    color: function() {
+    color() {
       const colors = {
         pending: 'grey',
         healthy: 'green',
@@ -43,7 +44,7 @@ export default {
       }
       return colors[this.status]
     },
-    currentStatus: function() {
+    currentStatus() {
       return this.status
     }
   }

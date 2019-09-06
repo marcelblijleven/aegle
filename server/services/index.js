@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const createDynamicServices = require('../src/services/create-dynamic-services')
-const verifyServices = require('../src/services/verify-services')
+const { verifyServices } = require('../src/services/service-utils')
 const paramUtils = require('../src/services/param-utils')
 
 const directory = __dirname
