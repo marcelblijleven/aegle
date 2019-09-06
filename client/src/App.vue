@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
 import Toolbar from '@/components/Toolbar.vue'
 
 export default {
@@ -32,24 +31,23 @@ export default {
       justify: 'center',
       alignment: 'center',
       services: [],
-      socket : io(`${process.env.VUE_APP_SERVER_IP || 'localhost'}:5000`),
       hasConnection: false
     }
   },
   mounted() {
-    this.socket.on('connect', () => {
+    this.$socket.on('connect', () => {
       this.$store.commit('updateConnection', true)
     })
 
-    this.socket.on('connect_error', () => {
+    this.$socket.on('connect_error', () => {
       this.$store.commit('updateConnection', false)
     })
 
-    this.socket.on('services', (message) => {
+    this.$socket.on('services', (message) => {
       this.$store.commit('addServices', this.sortServices(message))
     })
 
-    this.socket.on('service:update', (message) => {
+    this.$socket.on('service:update', (message) => {
       const serviceToUpdate = message.service
       const previousStatus = this.$store.getters.getServiceById(serviceToUpdate.id).status
       const newStatus = message.service.status
