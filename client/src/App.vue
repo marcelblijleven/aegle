@@ -61,7 +61,6 @@ export default {
       const newStatus = message.service.status
       
       this.$store.commit('updateService', serviceToUpdate)
-
       // Sort if status has changed
       if (newStatus !== previousStatus) {
         this.sortServices(this.services)
