@@ -4,7 +4,8 @@
       <thead >
         <th class="indicator"></th>
         <th class="pl8 text-left">Name</th>
-        <th class="text-left">Status</th>
+        <th class="text-left hidden-xs-only">Status</th>
+        <th class="text-left">Updated at</th>
         <th class="text-left hidden-xs-only">Response times</th>
       </thead>
       <tbody>

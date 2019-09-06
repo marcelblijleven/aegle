@@ -2,6 +2,7 @@
   <tr @click="navigateToService" class="service-table-row">
     <td class="indicator"><status-indicator :status="service.status" :small="true" /></td>
     <td class="pl8 text-left">{{ service.name }}</td>
+    <td class="text-left hidden-xs-only">{{ service.status }}</td>
     <td class="text-left">{{ service.updatedAt }}</td>
     <td class="hidden-xs-only sparkline">
       <spark-line 
@@ -42,6 +43,6 @@ export default {
   }
 
   .sparkline {
-    min-width: 100px;
+    max-width: 100px;
   }
 </style>
