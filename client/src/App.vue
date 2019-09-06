@@ -3,19 +3,15 @@
     <v-app id='inspire'>
       <toolbar :title="title" />
       <v-content>
-        <v-container fluid>
-          <v-row>
-            <v-col />
-            <v-col :cols="12" :sm="8">
-              <table-placeholder 
-                :services="services" 
-                :connected="hasConnection" 
-                :server="serverAddress"
-              />
-            </v-col>
-            <v-col />
-          </v-row>
-        </v-container>
+          <v-container fluid>
+            <v-row>
+              <v-col></v-col>
+              <v-col :cols="12" :sm="10">
+                <router-view />
+              </v-col>
+              <v-col />
+            </v-row>
+          </v-container>
       </v-content>
     </v-app>
   </div>
@@ -23,21 +19,16 @@
 
 <script>
 import io from 'socket.io-client'
-import TablePlaceholder from '@/components/TablePlaceholder.vue'
 import Toolbar from '@/components/Toolbar.vue'
-
-const serverAddress = `${process.env.VUE_APP_SERVER_IP || 'localhost'}:5000`
 
 export default {
   name: 'app',
   components: {
-    TablePlaceholder,
     Toolbar,
   },
   data() {
     return {
       title: 'Healthchecks',
-      serverAddress: serverAddress,
       justify: 'center',
       alignment: 'center',
       services: [],
@@ -47,32 +38,26 @@ export default {
   },
   mounted() {
     this.socket.on('connect', () => {
-      this.hasConnection = true
+      this.$store.commit('updateConnection', true)
     })
 
     this.socket.on('connect_error', () => {
-      this.hasConnection = false
+      this.$store.commit('updateConnection', false)
     })
 
     this.socket.on('services', (message) => {
-      this.services = this.sortServices(message)
+      this.$store.commit('addServices', this.sortServices(message))
     })
 
     this.socket.on('service:update', (message) => {
-      const updateService = message.service
-      const oldStatus = this.services.find(service => service.id === updateService.id).status
+      const serviceToUpdate = message.service
+      const previousStatus = this.$store.getters.getServiceById(serviceToUpdate.id).status
       const newStatus = message.service.status
       
-      this.services.find(service => {
-        if (service.id === message.service.id) {
-          service.status = message.service.status
-          service.updatedAt = message.service.updatedAt
-          service.responseTimes = message.service.responseTimes
-        }
-      })
+      this.$store.commit('updateService', serviceToUpdate)
 
       // Sort if status has changed
-      if (newStatus !== oldStatus) {
+      if (newStatus !== previousStatus) {
         this.sortServices(this.services)
       }
     })
