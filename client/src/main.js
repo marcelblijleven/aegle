@@ -5,7 +5,7 @@ import VueRouter from 'vue-router'
 import socket from 'socket.io-client'
 
 import routes from './routes'
-import store from './store'
+import store from './store/store'
 
 // Create and make available socket instance
 const serverAddress = `${process.env.VUE_APP_SERVER_IP || 'localhost'}:5000`

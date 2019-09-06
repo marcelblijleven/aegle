@@ -3,6 +3,7 @@
     <v-app id='inspire'>
       <toolbar :title="title" />
       <v-content>
+          <alert v-for="(alert, index) in alerts" :key="index" :alert="alert" />
           <v-container fluid>
             <v-row>
               <v-col></v-col>
@@ -18,12 +19,19 @@
 </template>
 
 <script>
+import Alert from '@/components/Alert.vue'
 import Toolbar from '@/components/Toolbar.vue'
 
 export default {
   name: 'app',
   components: {
+    Alert,
     Toolbar,
+  },
+  computed: {
+    alerts() {
+      return this.$store.state.AlertsModule.alerts
+    }
   },
   data() {
     return {

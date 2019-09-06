@@ -54,8 +54,11 @@ export default {
       component.loading = true
       this.$socket.emit('service:update', this.service.id, function(success) {
         component.loading = false
-        success
-        // TODO: if success == false, show message
+        // eslint-disable-next-line
+        console.log(component.$store)
+        const text = success ? 'Service updated' : 'Service not updated'
+        const type = success ? 'success' : 'error'
+        component.$store.dispatch('add', { id: component.service.id, type, text })
       })
     }
   },
