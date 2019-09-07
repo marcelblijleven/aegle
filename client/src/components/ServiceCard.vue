@@ -37,7 +37,10 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      snackbar: false,
+      snackbarText: null,
+      snackbarColor: null,
     }
   },
   components: {
@@ -52,17 +55,14 @@ export default {
     updateService() {
       const component = this
       component.loading = true
-      this.$socket.emit('service:update', this.service.id, function(success) {
+      this.$socket.emit('service:update', this.service.id, function(response) {
         component.loading = false
-        const text = success ? 'Service updated' : 'Service not updated'
-        const type = success ? 'success' : 'error'
-        component.$store.dispatch('add', { id: component.service.id, type, text })
+        const snackbar = {...response}
+        component.$store.commit('add:snackbar', snackbar)
       })
     }
   },
   beforeRouteEnter (to, from, next) {
-    // Redirect back to home if service is undefined
-    // this happens when server restarts
     if (to.params.service === undefined) {
       next('/')
     }

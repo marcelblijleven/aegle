@@ -5,7 +5,7 @@ function createDynamicServices(service) {
   const combinations = getAllParamCombinations(service)
 
   for (const combination of combinations) {
-    let newService = Object.assign({}, service)
+    let newService = {...service}
     let url = service.url
     delete newService.params // Clean unneeded params property
 

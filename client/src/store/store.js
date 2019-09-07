@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import AlertsModule from './alerts'
+import SnackBar from './snackbar'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    AlertsModule: AlertsModule,
+    SnackBar
   },
   state: {
     isConnected: false,
@@ -31,6 +31,12 @@ export default new Vuex.Store({
     getOverallHealthcheck(state) {
       const overallState = state.services.every(service => service.status === 'healthy')
       return overallState ? 'healthy' : 'unhealthy'
+    },
+    getHealthyPercentage(state) {
+      const healthyServices = state.services.filter(service => service.status === 'healthy')
+      const healthyNumber = healthyServices.length
+      const totalNumber = state.services.length
+      return totalNumber > 0 ? healthyNumber / totalNumber * 100 : 0
     }
   },
   mutations: {

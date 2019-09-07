@@ -25,6 +25,7 @@ async function getHealthCheck(service, io, callback) {
   utils.addResponseTimesToService(service, response || error)
   service.status = healthy ? 'healthy' : 'unhealthy'
   service.updatedAt = new Date().toLocaleString('nl-NL')
+  
   callback({ service }, io)
 }
 
