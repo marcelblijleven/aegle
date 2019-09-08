@@ -50,10 +50,19 @@ io.on('connection', function(socket) {
 
     if (service !== undefined) {
       getHealthcheck(service, io, updateService)
-        .then(() => fn(true))
-        .catch(() => fn(false))
+        .then(() => fn({ 
+          success: true,
+          text: 'Service successfully updated', 
+        }))
+        .catch((error) => fn({ 
+          success: false, 
+          text: error.message 
+        }))
     } else {
-      fn(false)
+      fn({ 
+        success: false,
+        text: 'Could not find service'
+      })
     }
   })
 })

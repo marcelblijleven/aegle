@@ -3,7 +3,6 @@
     <v-app id='inspire'>
       <toolbar :title="title" />
       <v-content>
-          <alert v-for="(alert, index) in alerts" :key="index" :alert="alert" />
           <v-container fluid>
             <v-row>
               <v-col></v-col>
@@ -14,24 +13,20 @@
             </v-row>
           </v-container>
       </v-content>
+      <v-snackbar v-model="snackbar.show" :color="snackbar.color">
+          {{ snackbar.text }}
+      </v-snackbar>
     </v-app>
   </div>
 </template>
 
 <script>
-import Alert from '@/components/Alert.vue'
-import Toolbar from '@/components/Toolbar.vue'
+import Toolbar from '@/components/toolbar/Toolbar.vue'
 
 export default {
   name: 'app',
   components: {
-    Alert,
     Toolbar,
-  },
-  computed: {
-    alerts() {
-      return this.$store.state.AlertsModule.alerts
-    }
   },
   data() {
     return {
@@ -39,7 +34,8 @@ export default {
       justify: 'center',
       alignment: 'center',
       services: [],
-      hasConnection: false
+      hasConnection: false,
+      snackbar: this.$store.state.SnackBar
     }
   },
   mounted() {
