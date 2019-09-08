@@ -22,7 +22,7 @@ Regular service
 Dynamic service
 ```json
 {
-  "name": "regular-service",
+  "name": "dynamic-service",
   "url": "http://localhost/{path}",
   "healthyValue": { "status": "ok" },
   "params": {
