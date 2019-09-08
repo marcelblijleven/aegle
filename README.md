@@ -1,5 +1,7 @@
-<h1 align="center">aegle</h1>
-<p align="center" style="font-size: 1.2rem;">Simple healthcheck monitor</p>
+# Aegle
+![](https://github.com/marcelblijleven/aegle/workflows/server-ci/badge.svg)
+---
+A simple way to monitor healthcheck endpoints
 
 ## Quick start
 Run `npm install` in the root folder to install dependencies for both server and client.
