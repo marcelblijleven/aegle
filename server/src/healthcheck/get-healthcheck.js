@@ -1,15 +1,22 @@
+const https = require('https')
 const get = require('./get')
 const utils = require('./utils')
 const isEqual = require('../is-equal')
 
 async function getHealthCheck(service, io, callback) {
-  const options = { timeout: process.env.POLL_TIMEOUT || 15 * 1000}
+  const options = { timeout: process.env.POLL_TIMEOUT || 15 * 1000 }
   let healthy = false
   let response
   let error
+  
+  if (service.agent !== undefined) {
+    agent = new https.Agent(service.agent)
+    options.agent = agent
+  }
 
   try {
-    response = await get(service.url, options)
+    const expectContent = service.healthyValue !== undefined && service.healthyValue.length > 0
+    response = await get(service.url, options, expectContent)
 
     if (response.ok && (service.healthyValue === undefined || service.healthyValue === '')) {
       healthy = true

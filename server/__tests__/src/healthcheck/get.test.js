@@ -93,4 +93,11 @@ describe('get', function() {
     fetch.mockReturnValue(Promise.resolve(fetchMockResponse))
     await expect(get('http://localhost')).rejects.toThrow(/Invalid content type/)
   })
+
+  test('No response content expected', async () => {
+    const fetchMockResponse = new Response('', { status: 200, headers: htmlHeaders })
+    fetch.mockReturnValue(Promise.resolve(fetchMockResponse))
+    const value = await get('http://localhost', null, false)
+    expect(value).toEqual(createResponseObject(fetchMockResponse, null, new Date()))
+  })
 })

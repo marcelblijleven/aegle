@@ -1,11 +1,15 @@
 const fetch = require('node-fetch')
 const { getContentType, createResponseObject, createError } = require('./utils')
 
-function get(url, options) {
+function get(url, options, expectContent=true) {
   const startTime = new Date()
-
+  
   return fetch(url, options).then(response => {
     if (response.ok) {
+      if (!expectContent) {
+        return createResponseObject(response, null, startTime)
+      }
+
       const contentType = getContentType(response)
 
       // JSON
