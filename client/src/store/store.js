@@ -47,13 +47,25 @@ export default new Vuex.Store({
       state.services = services
     },
     updateService(state, service) {
+      let newValue = service.status
+      let oldValue
+
       state.services.find(s => {
         if (s.id === service.id) {
+          oldValue = s.status
           s.status = service.status
           s.updatedAt = service.updatedAt
           s.responseTimes = service.responseTimes
         }
       })
+
+      if (newValue !== oldValue) {
+        state.services = services.sort((a, b) => {
+          if (a.status < b.status) return 1
+          if (a.status > b.status) return -1
+          return 0
+        })
+      }
     },
     updateConnection(state, connected) {
       state.isConnected = connected
