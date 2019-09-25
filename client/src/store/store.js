@@ -44,7 +44,7 @@ export default new Vuex.Store({
       state.services.push(service)
     },
     addServices(state, services) {
-      state.services = services
+      state.services = sortServices(services)
     },
     updateService(state, service) {
       let newValue = service.status
@@ -60,11 +60,7 @@ export default new Vuex.Store({
       })
 
       if (newValue !== oldValue) {
-        state.services = services.sort((a, b) => {
-          if (a.status < b.status) return 1
-          if (a.status > b.status) return -1
-          return 0
-        })
+        state.services = sortServices(state.services)
       }
     },
     updateConnection(state, connected) {
@@ -75,3 +71,13 @@ export default new Vuex.Store({
     }
   }
 })
+
+function sortServices(services) {
+  services = services.sort((a, b) => {
+    if (a.status < b.status) return 1
+    if (a.status > b.status) return -1
+    return 0
+  })
+
+  return services
+}

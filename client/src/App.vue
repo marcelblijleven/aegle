@@ -48,29 +48,22 @@ export default {
     })
 
     this.$socket.on('services', (message) => {
-      this.$store.commit('addServices', this.sortServices(message))
+      this.$store.commit('addServices', message)
     })
 
     this.$socket.on('service:update', (message) => {
       const serviceToUpdate = message.service
-      const previousStatus = this.$store.getters.getServiceById(serviceToUpdate.id).status
-      const newStatus = message.service.status
       
       this.$store.commit('updateService', serviceToUpdate)
-      // Sort if status has changed
-      if (newStatus !== previousStatus) {
-        this.sortServices(this.services)
+      const lastResponseTime = serviceToUpdate.responseTimes.slice(-1).pop() || 0
+
+      if (lastResponseTime > 2000 ) {
+        this.$store.commit('add:snackbar', {
+          success: false, 
+          text: `${serviceToUpdate.name} response time was above threshold (2000)`
+        })
       }
     })
-  },
-  methods: {
-    sortServices: function(services) {
-      return services.sort((a, b) => {
-        if (a.status < b.status) return 1
-        if (a.status > b.status) return -1
-        return 0
-      })
-    } 
   }
 }
 </script>
