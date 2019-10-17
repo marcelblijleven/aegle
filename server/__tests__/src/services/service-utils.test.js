@@ -41,6 +41,18 @@ describe('verifyServices', function() {
   test('It should verify if the provided url is correct', function() {
     console.error = jest.fn()
     verifyServices({name: 'incorrectUrl', url: '/check', type: 'text', healthyValue: '200 OK'})
-    expect(console.error).toHaveBeenCalledWith('Server: service url should be absolute')
+    expect(console.error).toHaveBeenCalledWith('Server: service url is incorrect')
+  })
+
+  test('It should allow domain names with dashed', function() {
+    console.error = jest.fn()
+    const result = verifyServices({name: 'with-dash', url: 'https://flux-capacitor.com', type: 'text', healthyValue: '200 OK'})
+    expect(result).toEqual(true)
+  })
+
+  test('It should allow domain names with ports', function() {
+    console.error = jest.fn()
+    const result = verifyServices({name: 'with-port', url: 'https://flux-capacitor.com:8080', type: 'text', healthyValue: '200 OK'})
+    expect(result).toEqual(true)
   })
 })
