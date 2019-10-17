@@ -1,4 +1,7 @@
 # Aegle
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/marcelblijleven/aegle.svg)](https://greenkeeper.io/)
+
 ![](https://github.com/marcelblijleven/aegle/workflows/server-ci/badge.svg)
 ---
 A simple way to monitor healthcheck endpoints
