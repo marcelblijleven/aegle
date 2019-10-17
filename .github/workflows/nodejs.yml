@@ -21,7 +21,7 @@ jobs:
       run: |
         cd ./server
         npm install
-        npm test
+        npm run test:coverage
       env:
         CI: true
     - name: Upload code coverage to codecov
