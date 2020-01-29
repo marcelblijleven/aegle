@@ -1,5 +1,6 @@
 jest.mock('../../../src/healthcheck/get')
 
+const http = require('http')
 const https = require('https')
 const get = require('../../../src/healthcheck/get')
 const { advanceTo, clear } = require('jest-date-mock')
@@ -110,9 +111,26 @@ describe('getHealthcheck', function() {
 
   test('Add custom https agent if applied', async () => {
     const service = getMockService()
+    service.url = 'https://localhost' // Set protocol to https
     const callback = jest.fn()
     const agentData = { mock: 'data'}
     const expectedAgent = https.Agent(agentData)
+    service.agent = agentData
+
+    get.mockReturnValue(Promise.resolve({ data: '200 OK', duration: 1000 }))
+    await getHealthcheck(service, io, callback)
+
+    const expectedOptions = { timeout: 15 * 1000, agent: expectedAgent }
+    const calledOptionsArgument = get.mock.calls[0][1]
+    expect(get).toBeCalled()
+    expect(JSON.stringify(calledOptionsArgument)).toEqual(JSON.stringify(expectedOptions))
+  })
+
+  test('Custom http will be used for http protocol', async () => {
+    const service = getMockService()
+    const callback = jest.fn()
+    const agentData = { mock: 'data'}
+    const expectedAgent = http.Agent(agentData)
     service.agent = agentData
 
     get.mockReturnValue(Promise.resolve({ data: '200 OK', duration: 1000 }))

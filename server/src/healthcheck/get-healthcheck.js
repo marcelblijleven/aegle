@@ -1,6 +1,8 @@
+const http = require('http')
 const https = require('https')
 const get = require('./get')
 const utils = require('./utils')
+const url = require('url')
 const isEqual = require('../is-equal')
 
 async function getHealthCheck(service, io, callback) {
@@ -10,7 +12,15 @@ async function getHealthCheck(service, io, callback) {
   let error
   
   if (service.agent !== undefined) {
-    agent = new https.Agent(service.agent)
+    const parsedUrl = url.parse(service.url)
+    let agent
+
+    if (parsedUrl.protocol === 'http:') {
+      agent = new http.Agent(service.agent)
+    } else {
+      agent = new https.Agent(service.agent)
+    }
+
     options.agent = agent
   }
 
