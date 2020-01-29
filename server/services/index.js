@@ -35,8 +35,7 @@ function getServices(dir) {
   })
 
   if (!verifyServices(services)) {
-    console.error('Server: not all services match requirements')
-    process.exit(1)
+    console.warn('Server: not all services match requirements')
   }
 
   // Add properties to services

@@ -13,7 +13,7 @@ function serviceHasAbsoluteUrl(service) {
   }
 
   if (!validURL(service.url)) {
-    console.error('Server: service url is incorrect')
+    console.error('Server: service url is incorrect', service)
     return false
   }
 

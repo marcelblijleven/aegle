@@ -41,7 +41,7 @@ describe('verifyServices', function() {
   test('It should verify if the provided url is correct', function() {
     console.error = jest.fn()
     verifyServices({name: 'incorrectUrl', url: '/check', type: 'text', healthyValue: '200 OK'})
-    expect(console.error).toHaveBeenCalledWith('Server: service url is incorrect')
+    expect(console.error).toHaveBeenCalled()
   })
 
   test('It should allow domain names with dashed', function() {
