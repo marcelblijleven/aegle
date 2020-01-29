@@ -42,13 +42,16 @@ The other ways to check healthyValue are based on the Content-Type of the respon
 * text/html
 * application/json
 
-*text/html*
+**text/html**
+
 If the Content-Type header of the response is text/html, you can also omit the `healthyValue` property, because the same response.ok will be used.
 
-*text/plain*
+**text/plain**
+
 If you're service endpoint returns plain text, and the provided Content-Type header of the response is text/plain, you can add a simple string value to the `healthyValue` property, and the healthcheck will check if it matches the response.
 
-*application/json*
+**application/json**
+
 If the Content-Type header is application/json, the `healthyValue` property will compare the object that is assigned to the property to the response object.
 
 ### dotenv
