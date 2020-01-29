@@ -34,11 +34,30 @@ Dynamic service
 
 Add the properties of service.params to your url as placeholder, and all combinations will automatically be included in the list of services.
 
+#### Healthy values and response content
+There are several ways to detect if the service is healthy or not. The most easy one is to omit the property `healthyValue` from the service. When this property is not present, the healthcheck function will check if the response status is 'Ok', which means it is in the range of 200 - 299 inclusive.
+
+The other ways to check healthyValue are based on the Content-Type of the response, the following content types are implemented:
+* text/plain
+* text/html
+* application/json
+
+**text/html**
+
+If the Content-Type header of the response is text/html, you can also omit the `healthyValue` property, because the same response.ok will be used.
+
+**text/plain**
+
+If you're service endpoint returns plain text, and the provided Content-Type header of the response is text/plain, you can add a simple string value to the `healthyValue` property, and the healthcheck will check if it matches the response.
+
+**application/json**
+
+If the Content-Type header is application/json, the `healthyValue` property will compare the object that is assigned to the property to the response object.
 
 ### dotenv
 The following dotenv variables are available: SERVER_PORT, POLL_TIMER, POLL_TIMEOUT, WEBHOOK
 
-Fill in your desired values and copy and rename the `template.env` file to `.env`. Insert a Slack channel webhook url if you want to be updated when a service is unhealthy
+Fill in your desired values and copy and rename the `template.env` file to `.env`.
 
 ## Run
 After adding your services, run `npm run start` in the root folder.
